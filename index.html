@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Blocks | Institutional Financial Simulation Platform</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="container nav-container">
+      <a class="logo" href="#hero" aria-label="Money Blocks home">Money Blocks</a>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="#product">Product</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#institutions">Institutions</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
+          <a class="btn" href="#contact">Launch Portal</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero" data-reveal>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Institutional-grade simulation for students</p>
+          <h1>Trading. Strategy. Learning. Without real-world risk.</h1>
+          <p class="subhead">A multi-institution financial simulation platform where students trade, short, and respond to crisis scenarios in real time.</p>
+          <div class="cta-group">
+            <a class="btn" href="#contact">Launch Portal</a>
+            <a class="btn ghost" href="#how">See How It Works</a>
+          </div>
+          <div class="hero-bullets">
+            <span>Real-time simulated market feed</span>
+            <span>Institution-isolated data</span>
+            <span>Manager controls &amp; crisis drills</span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Mock dashboard showing portfolio and stocks">
+          <div class="dashboard">
+            <div class="dashboard-header">
+              <div>
+                <p class="label">Portfolio Value</p>
+                <h3>$250,430</h3>
+              </div>
+              <div class="pill">+4.6% today</div>
+            </div>
+            <div class="chart" aria-hidden="true">
+              <svg viewBox="0 0 240 80" preserveAspectRatio="none">
+                <polyline fill="none" stroke="var(--accent)" stroke-width="3" points="0,60 40,55 80,58 120,40 160,42 200,30 240,35" />
+                <polyline fill="rgba(214,67,88,0.2)" stroke="none" points="0,80 0,60 40,55 80,58 120,40 160,42 200,30 240,35 240,80" />
+              </svg>
+            </div>
+            <div class="positions">
+              <div class="positions-header">
+                <span>Ticker</span>
+                <span>Price</span>
+                <span>Change</span>
+              </div>
+              <ul class="positions-list" aria-live="polite">
+                <li class="position" data-symbol="MBX"><span>MBX</span><span class="price">124.20</span><span class="delta">+0.42%</span></li>
+                <li class="position" data-symbol="EDU"><span>EDU</span><span class="price">78.10</span><span class="delta">-0.12%</span></li>
+                <li class="position" data-symbol="SIM"><span>SIM</span><span class="price">42.85</span><span class="delta">+0.65%</span></li>
+                <li class="position" data-symbol="CRS"><span>CRS</span><span class="price">15.40</span><span class="delta">-0.31%</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust" aria-label="Trusted by" data-reveal>
+      <div class="container trust-strip">
+        <p>Trusted by</p>
+        <div class="logos">
+          <span>Universities</span>
+          <span>Colleges</span>
+          <span>Student Investment Clubs</span>
+          <span>Business Societies</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="product" data-reveal>
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">Product highlights</p>
+          <h2>Built for institutional-grade learning</h2>
+          <p class="section-lead">Everything you need to simulate markets, manage access, and keep institutions isolated.</p>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Institution-Isolated Portals</h3>
+            <p>Each institution runs in its own secured environment. No data ever leaves your cohort.</p>
+          </article>
+          <article class="card">
+            <h3>Real-Time Market Simulation</h3>
+            <p>WebSocket-driven updates keep every participant in sync with zero page refreshes.</p>
+          </article>
+          <article class="card">
+            <h3>Spot + Short Trading</h3>
+            <p>Support for long and timed short positions with guardrails to match your policies.</p>
+          </article>
+          <article class="card">
+            <h3>Crisis Scenarios &amp; Controls</h3>
+            <p>Publish institution-specific scenarios, set stock limits, and watch how teams respond.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section how" id="how" data-reveal>
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">How it works</p>
+          <h2>Launch in four simple steps</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">01</div>
+            <h3>Select Institution</h3>
+            <p>Choose or create a dedicated portal for your university or club.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <h3>Secure Login</h3>
+            <p>Authenticate with Google (domain-restricted) or local credentials.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <h3>Trade &amp; Manage</h3>
+            <p>Execute spot and short orders, track risk, and manage your simulated portfolio.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">04</div>
+            <h3>Respond to Crises</h3>
+            <p>Managers publish real-time scenarios to stress-test strategy and teamwork.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section institutions" id="institutions" data-reveal>
+      <div class="container institutions-grid">
+        <div>
+          <p class="eyebrow">For institutions</p>
+          <h2>Manager controls made simple</h2>
+          <p class="section-lead">Purpose-built for program leads who need clarity, control, and compliance.</p>
+          <ul class="checklist">
+            <li>Publish timed crisis scenarios.</li>
+            <li>Update prices or pauses instantly.</li>
+            <li>Set stock availability and trading windows.</li>
+            <li>Define per-user and shorting limits.</li>
+            <li>Review participant portfolios by institution.</li>
+          </ul>
+          <div class="cta-inline">
+            <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="label">Manager Panel</p>
+              <h3>Live Controls</h3>
+            </div>
+            <span class="pill subtle">Isolated</span>
+          </div>
+          <div class="panel-body">
+            <div class="control-row">
+              <span>Scenario</span>
+              <span class="pill accent">Credit Shock</span>
+            </div>
+            <div class="control-row">
+              <span>Trading Window</span>
+              <span class="pill subtle">09:00 - 16:00</span>
+            </div>
+            <div class="control-row">
+              <span>Short Limit</span>
+              <span class="pill subtle">25% exposure</span>
+            </div>
+            <div class="control-row">
+              <span>Price Update</span>
+              <span class="pill accent">Live</span>
+            </div>
+            <div class="control-row">
+              <span>Participants</span>
+              <span class="pill subtle">142</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section security" id="security" data-reveal>
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">Security &amp; privacy</p>
+          <h2>Guardrails for every institution</h2>
+          <p class="section-lead">Privacy-first design keeps cohorts isolated and credentials protected.</p>
+        </div>
+        <div class="badge-grid">
+          <div class="badge">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2l7 4v5c0 5-3 8-7 11-4-3-7-6-7-11V6l7-4z" fill="currentColor" opacity="0.2"/><path d="M12 4l5 3v4.5c0 3.5-2.2 5.9-5 8-2.8-2.1-5-4.5-5-8V7l5-3z" fill="currentColor"/></svg>
+            </div>
+            <h3>Data isolation</h3>
+            <p>Every institution is walled off—no cross-portal visibility or shared feeds.</p>
+          </div>
+          <div class="badge">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12.5l5 5L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+            </div>
+            <h3>Domain-restricted login</h3>
+            <p>Google sign-in limited to approved domains, plus secure local authentication.</p>
+          </div>
+          <div class="badge">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+            </div>
+            <h3>Secure sessions</h3>
+            <p>Hashed passwords, signed sessions, and least-privilege access by design.</p>
+          </div>
+          <div class="badge">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 12h8" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3>No data leakage</h3>
+            <p>Institution data never commingles; exports and reports stay within your portal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq" data-reveal>
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">FAQ</p>
+          <h2>Answers for admins and students</h2>
+        </div>
+        <div class="accordion" role="tablist">
+          <button class="accordion-item" aria-expanded="false">
+            <span>Is it real money?</span>
+            <span class="chevron">+</span>
+            <p class="answer">No. Money Blocks is a simulation environment—no real funds move through the platform.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>Can institutions customize rules?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Yes. Managers configure trading windows, short limits, availability, and custom scenarios.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>How does Google login restriction work?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Approved domains are enforced per portal, preventing unauthorized sign-ins.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>Can students short trade?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Yes. Timed short positions are available with manager-defined exposure limits.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>How do crisis scenarios work?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Managers publish timed events—price shocks, pauses, or news—that appear instantly in the portal.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>Can we run multiple events?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Absolutely. Create separate simulations per cohort, class, or competition without cross-contamination.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>Does it support reports?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Managers can view performance by participant and export summaries within the institution boundary.</p>
+          </button>
+          <button class="accordion-item" aria-expanded="false">
+            <span>Is onboarding fast?</span>
+            <span class="chevron">+</span>
+            <p class="answer">Spin up a new portal in minutes with pre-built defaults for student trading leagues.</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" data-reveal>
+      <div class="container contact-grid">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Let’s talk about your next simulation</h2>
+          <p class="section-lead">Email us at <a href="mailto:hello@money-blocks.org">hello@money-blocks.org</a> for demos, pricing, or security reviews.</p>
+        </div>
+        <div class="cta-inline">
+          <a class="btn" href="#contact">Launch Portal</a>
+          <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-banner" data-reveal>
+      <div class="container banner-content">
+        <div>
+          <p class="eyebrow">Get started</p>
+          <h2>Ready to run your next trading simulation?</h2>
+        </div>
+        <div class="cta-group">
+          <a class="btn" href="#contact">Launch Portal</a>
+          <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section legal" id="privacy" data-reveal>
+      <div class="container legal-grid">
+        <div>
+          <p class="eyebrow">Privacy</p>
+          <h2>Your data, your institution</h2>
+          <p class="section-lead">We keep student activity, portfolios, and credentials confined to each institution. No cross-portal sharing or external analytics.</p>
+        </div>
+        <div class="legal-card">
+          <h3>Key points</h3>
+          <ul>
+            <li>Isolation by institution with role-based access.</li>
+            <li>Hashed credentials for local login options.</li>
+            <li>Google sign-in limited to approved domains.</li>
+            <li>Data exports remain within your portal boundary.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section legal" id="terms" data-reveal>
+      <div class="container legal-grid">
+        <div>
+          <p class="eyebrow">Terms</p>
+          <h2>Simulation-only trading</h2>
+          <p class="section-lead">Money Blocks is built for education and training. We do not custody or move real funds; all values are simulated for learning.</p>
+        </div>
+        <div class="legal-card">
+          <h3>Highlights</h3>
+          <ul>
+            <li>For instructional use; not financial advice.</li>
+            <li>Managers define permissible actions and limits.</li>
+            <li>Participants are responsible for safeguarding their credentials.</li>
+            <li>Use of the platform is subject to institutional policies.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="logo">Money Blocks</p>
+        <p class="muted">Money Blocks is a simulation platform; not financial advice.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="mailto:hello@money-blocks.org">Contact</a>
+      </div>
+      <p class="muted copy">© <span id="year"></span> Money Blocks. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
