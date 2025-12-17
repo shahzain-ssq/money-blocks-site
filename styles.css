@@ -103,6 +103,16 @@ a { color: inherit; text-decoration: none; }
 .btn.ghost:hover,
 .btn.ghost:focus-visible { border-color: var(--accent); color: var(--accent-strong); }
 
+.text-link {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  text-decoration: underline;
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
