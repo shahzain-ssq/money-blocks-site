@@ -1,12 +1,44 @@
-// Mobile navigation toggle
+// Normalize /index.html#hash to /#hash without reload
+const { pathname, hash } = window.location;
+if (pathname.endsWith('/index.html')) {
+  const cleanPath = pathname.replace(/index\\.html$/, '');
+  history.replaceState({}, '', `${cleanPath}${hash}`);
+}
+
+// Mobile navigation toggle with single overlay
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.nav');
+const navBackdrop = document.querySelector('.nav-backdrop');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+function setNavState(isOpen) {
+  if (!nav || !navToggle) return;
+  nav.classList.toggle('open', isOpen);
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('no-scroll', isOpen);
+}
+
 if (navToggle && nav) {
   navToggle.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
+    const isOpen = !nav.classList.contains('open');
+    setNavState(isOpen);
+  });
+
+  navBackdrop?.addEventListener('click', () => setNavState(false));
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => setNavState(false));
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setNavState(false);
   });
 }
+// Regression checklist:
+// Open menu once → one overlay
+// Close → gone
+// Reopen → still one overlay
+// Click a nav link → menu closes and anchor scrolls correctly
 
 // Smooth scrolling for anchor links
 const anchorLinks = document.querySelectorAll('a[href^="#"]');
