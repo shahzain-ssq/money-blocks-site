@@ -55,6 +55,7 @@ a { color: inherit; text-decoration: none; }
 .nav { display: flex; align-items: center; gap: 18px; position: relative; }
 .nav-group { display: flex; align-items: center; gap: 18px; }
 .nav-backdrop { display: none; }
+.nav-backdrop.visible { display: block; }
 
 .nav-links {
   display: flex;

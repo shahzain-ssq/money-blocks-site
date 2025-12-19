@@ -16,6 +16,10 @@ function setNavState(isOpen) {
   nav.classList.toggle('open', isOpen);
   navToggle.setAttribute('aria-expanded', String(isOpen));
   document.body.classList.toggle('no-scroll', isOpen);
+  if (navBackdrop) {
+    navBackdrop.classList.toggle('visible', isOpen);
+    navBackdrop.setAttribute('aria-hidden', String(!isOpen));
+  }
 }
 
 if (navToggle && nav) {
@@ -44,14 +48,24 @@ if (navToggle && nav) {
 const anchorLinks = document.querySelectorAll('a[href^="#"], a[href*="/#"]');
 anchorLinks.forEach(link => {
   link.addEventListener('click', event => {
-    const targetId = link.hash || link.getAttribute('href');
-    const normalizedId = targetId?.includes('#') ? targetId.substring(targetId.indexOf('#')) : null;
-    if (normalizedId && normalizedId.startsWith('#')) {
-      const target = document.querySelector(normalizedId);
+    const href = link.getAttribute('href');
+    const hashIndex = href?.indexOf('#');
+    if (hashIndex !== undefined && hashIndex >= 0) {
+      const targetId = href.substring(hashIndex);
+      const target = document.querySelector(targetId);
       if (target) {
         event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setNavState(false);
+        const closeNav = () => setNavState(false);
+        if ('onscrollend' in document) {
+          const handleScrollEnd = () => {
+            document.removeEventListener('scrollend', handleScrollEnd);
+            closeNav();
+          };
+          document.addEventListener('scrollend', handleScrollEnd, { once: true });
+        } else {
+          setTimeout(closeNav, 350);
+        }
       }
     }
   });
