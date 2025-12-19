@@ -1,25 +1,71 @@
-// Mobile navigation toggle
-const navToggle = document.querySelector('.nav-toggle');
-const nav = document.querySelector('.nav');
-if (navToggle && nav) {
-  navToggle.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-  });
+// Normalize /index.html#hash to /#hash without reload
+const { pathname, hash } = window.location;
+if (pathname.endsWith('/index.html')) {
+  const cleanPath = pathname.replace(/index\.html$/, '');
+  history.replaceState({}, '', `${cleanPath}${hash}`);
 }
 
+// Mobile navigation toggle with single overlay
+const navToggle = document.querySelector('.nav-toggle');
+const nav = document.querySelector('.nav');
+const navBackdrop = document.querySelector('.nav-backdrop');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+function setNavState(isOpen) {
+  if (!nav || !navToggle) return;
+  nav.classList.toggle('open', isOpen);
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('no-scroll', isOpen);
+  if (navBackdrop) {
+    navBackdrop.classList.toggle('visible', isOpen);
+    navBackdrop.setAttribute('aria-hidden', String(!isOpen));
+  }
+}
+
+if (navToggle && nav) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = !nav.classList.contains('open');
+    setNavState(isOpen);
+  });
+
+  navBackdrop?.addEventListener('click', () => setNavState(false));
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => setNavState(false));
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setNavState(false);
+  });
+}
+// Regression checklist:
+// Open menu once → one overlay
+// Close → gone
+// Reopen → still one overlay
+// Click a nav link → menu closes and anchor scrolls correctly
+
 // Smooth scrolling for anchor links
-const anchorLinks = document.querySelectorAll('a[href^="#"]');
+const anchorLinks = document.querySelectorAll('a[href^="#"], a[href*="/#"]');
 anchorLinks.forEach(link => {
   link.addEventListener('click', event => {
-    const targetId = link.getAttribute('href');
-    if (targetId && targetId.startsWith('#')) {
+    const href = link.getAttribute('href');
+    const hashIndex = href?.indexOf('#');
+    if (hashIndex !== undefined && hashIndex >= 0) {
+      const targetId = href.substring(hashIndex);
       const target = document.querySelector(targetId);
       if (target) {
         event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        nav?.classList.remove('open');
-        navToggle?.setAttribute('aria-expanded', 'false');
+        const closeNav = () => setNavState(false);
+        if ('onscrollend' in document) {
+          const handleScrollEnd = () => {
+            document.removeEventListener('scrollend', handleScrollEnd);
+            closeNav();
+          };
+          document.addEventListener('scrollend', handleScrollEnd, { once: true });
+        } else {
+          setTimeout(closeNav, 350);
+        }
       }
     }
   });
