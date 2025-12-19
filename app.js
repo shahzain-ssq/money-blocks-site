@@ -1,7 +1,7 @@
 // Normalize /index.html#hash to /#hash without reload
 const { pathname, hash } = window.location;
 if (pathname.endsWith('/index.html')) {
-  const cleanPath = pathname.replace(/index\\.html$/, '');
+  const cleanPath = pathname.replace(/index\.html$/, '');
   history.replaceState({}, '', `${cleanPath}${hash}`);
 }
 
@@ -50,8 +50,7 @@ anchorLinks.forEach(link => {
       if (target) {
         event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        nav?.classList.remove('open');
-        navToggle?.setAttribute('aria-expanded', 'false');
+        setNavState(false);
       }
     }
   });
