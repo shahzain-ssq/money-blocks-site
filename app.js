@@ -41,12 +41,13 @@ if (navToggle && nav) {
 // Click a nav link → menu closes and anchor scrolls correctly
 
 // Smooth scrolling for anchor links
-const anchorLinks = document.querySelectorAll('a[href^="#"]');
+const anchorLinks = document.querySelectorAll('a[href^="#"], a[href*="/#"]');
 anchorLinks.forEach(link => {
   link.addEventListener('click', event => {
-    const targetId = link.getAttribute('href');
-    if (targetId && targetId.startsWith('#')) {
-      const target = document.querySelector(targetId);
+    const targetId = link.hash || link.getAttribute('href');
+    const normalizedId = targetId?.includes('#') ? targetId.substring(targetId.indexOf('#')) : null;
+    if (normalizedId && normalizedId.startsWith('#')) {
+      const target = document.querySelector(normalizedId);
       if (target) {
         event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
