@@ -62,6 +62,8 @@ const sectionRoutes = [
 ];
 const routePaths = new Set(sectionRoutes.map(route => route.path));
 const navLinkEls = document.querySelectorAll('.nav-links a');
+let navigationInProgress = false;
+let navigationTimeout;
 
 function updateActiveNav(path) {
   navLinkEls.forEach(link => {
@@ -88,10 +90,20 @@ if (isLanding) {
       const sectionId = routeLookup[href];
       if (!sectionId) return;
       event.preventDefault();
+      navigationInProgress = true;
+      window.clearTimeout(navigationTimeout);
       history.pushState({ sectionId }, '', href);
       scrollToSection(sectionId, prefersReducedMotion ? 'auto' : 'smooth');
       setNavState(false);
       updateActiveNav(href);
+      const clearNavigation = () => {
+        navigationInProgress = false;
+      };
+      if ('onscrollend' in document) {
+        document.addEventListener('scrollend', clearNavigation, { once: true });
+      } else {
+        navigationTimeout = window.setTimeout(clearNavigation, 500);
+      }
     });
   });
 
@@ -116,6 +128,7 @@ if (isLanding) {
       .map(route => document.getElementById(route.id))
       .filter(Boolean);
     const sectionObserver = new IntersectionObserver(entries => {
+      if (navigationInProgress) return;
       const visible = entries
         .filter(entry => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
