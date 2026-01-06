@@ -102,6 +102,9 @@ if (isLanding) {
       updateActiveNav(href);
       const markUserScrolled = () => {
         userScrolled = true;
+        navigationInProgress = false;
+        isProgrammaticScroll = false;
+        window.clearTimeout(navigationTimeout);
       };
       const clearNavigation = () => {
         if (isProgrammaticScroll && !userScrolled) {
