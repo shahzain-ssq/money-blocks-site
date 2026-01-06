@@ -114,6 +114,11 @@
           <p class="eyebrow">Product Highlights</p>
           <h2>Built for Institutional-Grade Learning</h2>
           <p class="section-lead">Everything you need to simulate markets, manage access, and keep institutions isolated.</p>
+          <div style="position: absolute; right: 20%; top: 10px; transform: rotate(-5deg);">
+            <svg width="120" height="40" viewBox="0 0 120 40">
+              <path d="M10,20 Q60,40 110,20" fill="none" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round" stroke-dasharray="5,5" />
+            </svg>
+          </div>
         </div>
         <div class="card-grid">
           <article class="card">
@@ -239,8 +244,8 @@
                             ok... calm now
                         </div>
                         <svg viewBox="0 0 300 100" class="mini-chart">
-                            <path class="sparkline-line" d="M0,80 C50,70 100,60 150,40 C200,20 250,80 300,90" stroke="var(--neon-lime)" fill="none" stroke-width="2"/>
-                            <path class="sparkline-fill" d="M0,80 C50,70 100,60 150,40 C200,20 250,80 300,90 L300,100 L0,100 Z" fill="url(#gradient)" opacity="0.2"/>
+                            <polyline class="sparkline-line" points="0,70 40,62 80,66 120,48 160,44 200,35 240,42" stroke="var(--neon-lime)" fill="none" stroke-width="2"/>
+                            <polygon class="sparkline-fill" points="0,90 0,70 40,62 80,66 120,48 160,44 200,35 240,42 240,90" fill="url(#gradient)" opacity="0.2"/>
                             <defs>
                                 <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                                     <stop offset="0%" style="stop-color:var(--neon-lime);stop-opacity:1" />
@@ -266,14 +271,19 @@
                         <div class="toggle-row">
                             <span>Freeze Trades</span>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" data-toggle="freeze">
                                 <span class="slider round"></span>
                             </label>
                         </div>
                         <div class="toggle-row">
                             <span>Risk Limit Guard</span>
-                            <!-- Toast Message placeholder handled by JS -->
+                            <label class="switch">
+                                <input type="checkbox" data-toggle="risk">
+                                <span class="slider round"></span>
+                            </label>
                         </div>
+
+                        <div class="panel-toast"></div>
 
                         <div class="handwritten" style="position: absolute; bottom: -30px; left: -20px; color: #666; font-size: 0.9rem; z-index: 10; white-space: nowrap;">
                             Zero Risk
@@ -392,6 +402,7 @@
       </div>
     </section>
 
+  <div class="crash-overlay"></div>
   <footer class="footer">
     <div class="container footer-grid">
       <div>
