@@ -194,13 +194,13 @@
             <span class="pill subtle">Isolated</span>
           </div>
           <div class="panel-tabs" role="tablist" aria-label="Manager views">
-            <button class="panel-tab active" type="button" data-panel-tab="overview" role="tab" aria-selected="true">Overview</button>
-            <button class="panel-tab" type="button" data-panel-tab="roster" role="tab" aria-selected="false">Roster</button>
-            <button class="panel-tab" type="button" data-panel-tab="approvals" role="tab" aria-selected="false">Approvals</button>
-            <button class="panel-tab" type="button" data-panel-tab="drill" role="tab" aria-selected="false">Drill Mode</button>
+            <button class="panel-tab active" type="button" data-panel-tab="overview" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview">Overview</button>
+            <button class="panel-tab" type="button" data-panel-tab="roster" role="tab" aria-selected="false" aria-controls="panel-roster" id="tab-roster">Roster</button>
+            <button class="panel-tab" type="button" data-panel-tab="approvals" role="tab" aria-selected="false" aria-controls="panel-approvals" id="tab-approvals">Approvals</button>
+            <button class="panel-tab" type="button" data-panel-tab="drill" role="tab" aria-selected="false" aria-controls="panel-drill" id="tab-drill">Drill Mode</button>
           </div>
           <div class="panel-body">
-            <div class="panel-view active" data-panel-view="overview">
+            <div class="panel-view active" data-panel-view="overview" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
               <div class="panel-metrics">
                 <div class="metric">
                   <p class="label">Active Seats</p>
@@ -244,7 +244,7 @@
                 </button>
               </div>
             </div>
-            <div class="panel-view" data-panel-view="roster">
+            <div class="panel-view" data-panel-view="roster" role="tabpanel" id="panel-roster" aria-labelledby="tab-roster">
               <div class="panel-list">
                 <div class="panel-row">
                   <div>
@@ -269,7 +269,7 @@
                 </div>
               </div>
             </div>
-            <div class="panel-view" data-panel-view="approvals">
+            <div class="panel-view" data-panel-view="approvals" role="tabpanel" id="panel-approvals" aria-labelledby="tab-approvals">
               <div class="panel-list">
                 <div class="panel-row">
                   <div>
@@ -294,7 +294,7 @@
                 </div>
               </div>
             </div>
-            <div class="panel-view" data-panel-view="drill">
+            <div class="panel-view" data-panel-view="drill" role="tabpanel" id="panel-drill" aria-labelledby="tab-drill">
               <div class="panel-row stacked">
                 <p class="label">Scenario</p>
                 <p class="muted">Credit shock with 30% spread widening.</p>

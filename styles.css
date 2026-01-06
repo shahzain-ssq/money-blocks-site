@@ -446,8 +446,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .toggle:hover,
+.toggle:focus-visible,
 .panel-tab:hover,
-.range-btn:hover {
+.panel-tab:focus-visible,
+.range-btn:hover,
+.range-btn:focus-visible {
   border-color: rgba(214,67,88,0.35);
   transform: translateY(-1px);
 }

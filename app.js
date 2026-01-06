@@ -104,7 +104,7 @@ if (isLanding) {
   }
 
   window.addEventListener('popstate', () => {
-    const sectionId = routeLookup[window.location.pathname];
+    const sectionId = history.state?.sectionId || routeLookup[window.location.pathname];
     if (sectionId) {
       scrollToSection(sectionId, prefersReducedMotion ? 'auto' : 'smooth');
       updateActiveNav(window.location.pathname);
@@ -124,7 +124,7 @@ if (isLanding) {
       if (!match || match.path === window.location.pathname) return;
       history.replaceState({}, '', match.path);
       updateActiveNav(match.path);
-    }, { threshold: [0.45, 0.6, 0.8] });
+    }, { threshold: [0.15, 0.45, 0.6, 0.8] });
 
     sections.forEach(section => sectionObserver.observe(section));
   }
@@ -223,6 +223,7 @@ const managerPanel = document.querySelector('.manager-panel');
 if (managerPanel) {
   const tabs = managerPanel.querySelectorAll('[data-panel-tab]');
   const views = managerPanel.querySelectorAll('[data-panel-view]');
+  const tabList = managerPanel.querySelector('[role="tablist"]');
   const toast = managerPanel.querySelector('.panel-toast');
   const rangeButtons = managerPanel.querySelectorAll('[data-range]');
   const sparkline = managerPanel.querySelector('.sparkline-line');
@@ -273,6 +274,23 @@ if (managerPanel) {
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => setActiveView(tab.dataset.panelTab));
+  });
+
+  tabList?.addEventListener('keydown', event => {
+    const tabsArray = [...tabs];
+    const currentIndex = tabsArray.findIndex(tab => tab === document.activeElement);
+    if (currentIndex === -1) return;
+    let nextIndex;
+    if (event.key === 'ArrowRight') {
+      nextIndex = (currentIndex + 1) % tabsArray.length;
+    } else if (event.key === 'ArrowLeft') {
+      nextIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabsArray[nextIndex].focus();
+    setActiveView(tabsArray[nextIndex].dataset.panelTab);
   });
 
   managerPanel.querySelectorAll('.toggle').forEach(toggle => {
