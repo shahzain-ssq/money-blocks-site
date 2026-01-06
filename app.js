@@ -294,7 +294,7 @@ if (managerPanel) {
       }
       
       if (checkbox.dataset.toggle === 'risk' && metrics.risk) {
-        metrics.risk.textContent = isOn ? '25%' : 'CRITICAL';
+        metrics.risk.textContent = isOn ? '25%' : 'Elevated';
       }
     });
   });
@@ -357,7 +357,7 @@ if (managerPanel) {
     }
 
     // Update Metrics to Danger
-    if (metrics.risk) metrics.risk.textContent = 'CRITICAL';
+    if (metrics.risk) metrics.risk.textContent = 'Elevated';
     if (metrics.seats) metrics.seats.textContent = '142 (!!!)';
 
     showToast('⚠️ MARKET CRASH TRIGGERED');
