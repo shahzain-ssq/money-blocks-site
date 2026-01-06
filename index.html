@@ -7,7 +7,7 @@
   <title>Money Blocks | Institutional Financial Simulation Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="home">
@@ -22,12 +22,12 @@
         </button>
         <div class="nav-group">
           <ul class="nav-links">
-            <li><a href="/product">Product</a></li>
-            <li><a href="/how">How It Works</a></li>
-            <li><a href="/institutions">Institutions</a></li>
-            <li><a href="/security">Security</a></li>
-            <li><a href="/faq">FAQ</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="#product">Product</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#institutions">Institutions</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
           <div class="nav-actions">
             <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
@@ -47,12 +47,20 @@
           <h1>Trading. Strategy. Learning. Without real-world risk.</h1>
           <p class="subhead">A multi-institution financial simulation platform where students trade, short, and respond to crisis scenarios in real time.</p>
           <div class="cta-group">
-            <a class="btn" href="https://finance.money-blocks.org" target="_blank" rel="noopener noreferrer">Launch Portal</a>
-            <a class="btn ghost" href="/how">See How It Works</a>
+            <div style="position: relative;">
+              <a class="btn" href="https://finance.money-blocks.org" target="_blank" rel="noopener noreferrer">Launch Portal</a>
+              <div class="doodle-arrow" aria-hidden="true">
+                <svg viewBox="0 0 100 50" width="80" height="40">
+                  <path d="M10,40 C30,45 60,10 90,10 M85,15 L90,10 L82,5" fill="none" stroke="#ff66cc" stroke-width="3" stroke-linecap="round" />
+                </svg>
+              </div>
+            </div>
+            <a class="btn ghost" href="#how">See How It Works</a>
           </div>
         </div>
         <div class="hero-visual" aria-label="Mock dashboard showing portfolio and stocks">
           <div class="dashboard">
+            <span class="handwritten" style="position: absolute; top: -25px; right: -30px; transform: rotate(15deg); font-size: 1.8rem; color: #ff66cc; text-shadow: 0 0 10px rgba(0,0,0,0.8);">Zero Risk!</span>
             <div class="dashboard-header">
               <div>
                 <p class="label">Portfolio Value</p>

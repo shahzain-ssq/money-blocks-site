@@ -1,13 +1,6 @@
 // Normalize .html routes to clean paths without reload
 const { pathname } = window.location;
-const cleanRouteMap = {
-  '/index.html': '/',
-  '/privacy.html': '/privacy',
-  '/terms.html': '/terms',
-};
-if (cleanRouteMap[pathname]) {
-  history.replaceState({}, '', cleanRouteMap[pathname]);
-}
+// Route map logic removed as we use hash-based navigation for sections
 
 // Mobile navigation toggle with single overlay
 const navToggle = document.querySelector('.nav-toggle');
@@ -51,15 +44,17 @@ if (navToggle && nav) {
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isLanding = document.body.classList.contains('home');
 const sectionRoutes = [
-  { id: 'hero', path: '/' },
-  { id: 'trusted-by', path: '/trusted-by' },
-  { id: 'product', path: '/product' },
-  { id: 'how', path: '/how' },
-  { id: 'institutions', path: '/institutions' },
-  { id: 'security', path: '/security' },
-  { id: 'faq', path: '/faq' },
-  { id: 'contact', path: '/contact' },
+  { id: 'hero', path: '#hero' },
+  { id: 'trusted-by', path: '#trusted-by' },
+  { id: 'product', path: '#product' },
+  { id: 'how', path: '#how' },
+  { id: 'institutions', path: '#institutions' },
+  { id: 'security', path: '#security' },
+  { id: 'faq', path: '#faq' },
+  { id: 'contact', path: '#contact' },
 ];
+// Ensure we handle both empty hash (root) and #hero as the same
+const currentHash = window.location.hash || '#hero';
 const routePaths = new Set(sectionRoutes.map(route => route.path));
 const navLinkEls = document.querySelectorAll('.nav-links a');
 let navigationInProgress = false;
@@ -148,10 +143,10 @@ if (isLanding) {
       if (navigationInProgress) return;
       const visible = entries
         .filter(entry => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        .sort((a, b) => b.intersectionRect.height - a.intersectionRect.height)[0];
       if (!visible) return;
       const match = sectionRoutes.find(route => route.id === visible.target.id);
-      if (!match || match.path === window.location.pathname) return;
+      if (!match || match.path === window.location.hash) return;
       history.replaceState({}, '', match.path);
       updateActiveNav(match.path);
     }, { threshold: [0.15, 0.45, 0.6, 0.8] });
