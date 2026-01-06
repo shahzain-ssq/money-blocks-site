@@ -6,10 +6,10 @@
   <title>Money Blocks | Institutional Financial Simulation Platform</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="home">
   <header class="top-nav">
     <div class="container nav-container">
-      <a class="logo" href="#hero" aria-label="Money Blocks home">Money Blocks</a>
+      <a class="logo" href="/" aria-label="Money Blocks home">Money Blocks</a>
       <nav class="nav" aria-label="Main navigation">
         <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
           <span></span>
@@ -18,12 +18,12 @@
         </button>
         <div class="nav-group">
           <ul class="nav-links">
-            <li><a href="#product">Product</a></li>
-            <li><a href="#how">How it works</a></li>
-            <li><a href="#institutions">Institutions</a></li>
-            <li><a href="#security">Security</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/product">Product</a></li>
+            <li><a href="/how">How It Works</a></li>
+            <li><a href="/institutions">Institutions</a></li>
+            <li><a href="/security">Security</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/contact">Contact</a></li>
           </ul>
           <div class="nav-actions">
             <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
@@ -44,12 +44,21 @@
           <p class="subhead">A multi-institution financial simulation platform where students trade, short, and respond to crisis scenarios in real time.</p>
           <div class="cta-group">
             <a class="btn" href="https://finance.money-blocks.org" target="_blank" rel="noopener noreferrer">Launch Portal</a>
-            <a class="btn ghost" href="#how">See How It Works</a>
+            <a class="btn ghost" href="/how">See How It Works</a>
           </div>
-          <div class="hero-bullets">
-            <span>Real-time simulated market feed</span>
-            <span>Institution-isolated data</span>
-            <span>Manager controls &amp; crisis drills</span>
+          <div class="hero-stats">
+            <div class="stat-card" data-reveal>
+              <p class="label">Active Cohorts</p>
+              <h3 class="stat-number" data-count="42" data-suffix="+">0</h3>
+            </div>
+            <div class="stat-card" data-reveal>
+              <p class="label">Simulated Trades</p>
+              <h3 class="stat-number" data-count="120000" data-suffix="+">0</h3>
+            </div>
+            <div class="stat-card" data-reveal>
+              <p class="label">Avg. Drill Response</p>
+              <h3 class="stat-number" data-count="18" data-suffix="s">0</h3>
+            </div>
           </div>
         </div>
         <div class="hero-visual" aria-label="Mock dashboard showing portfolio and stocks">
@@ -85,14 +94,17 @@
       </div>
     </section>
 
-    <section class="trust" aria-label="Trusted by" data-reveal>
+    <section class="trust" id="trusted-by" aria-label="Trusted by" data-reveal>
       <div class="container trust-strip">
-        <p>Trusted by</p>
+        <p>Trusted By</p>
         <div class="logos">
-          <span>Universities</span>
-          <span>Colleges</span>
-          <span>Student Investment Clubs</span>
-          <span>Business Societies</span>
+          <div class="logo-item">Universities</div>
+          <div class="logo-item">Colleges</div>
+          <div class="logo-item logo-image">
+            <img src="img/nixor_white.png" alt="Nixor">
+          </div>
+          <div class="logo-item">Student Investment Clubs</div>
+          <div class="logo-item">Business Societies</div>
         </div>
       </div>
     </section>
@@ -100,8 +112,8 @@
     <section class="section" id="product" data-reveal>
       <div class="container">
         <div class="section-header">
-          <p class="eyebrow">Product highlights</p>
-          <h2>Built for institutional-grade learning</h2>
+          <p class="eyebrow">Product Highlights</p>
+          <h2>Built for Institutional-Grade Learning</h2>
           <p class="section-lead">Everything you need to simulate markets, manage access, and keep institutions isolated.</p>
         </div>
         <div class="card-grid">
@@ -128,8 +140,8 @@
     <section class="section how" id="how" data-reveal>
       <div class="container">
         <div class="section-header">
-          <p class="eyebrow">How it works</p>
-          <h2>Launch in four simple steps</h2>
+          <p class="eyebrow">How It Works</p>
+          <h2>Launch in Four Simple Steps</h2>
         </div>
         <div class="steps">
           <div class="step">
@@ -159,8 +171,8 @@
     <section class="section institutions" id="institutions" data-reveal>
       <div class="container institutions-grid">
         <div>
-          <p class="eyebrow">For institutions</p>
-          <h2>Manager controls made simple</h2>
+          <p class="eyebrow">For Institutions</p>
+          <h2>Manager Controls Made Simple</h2>
           <p class="section-lead">Purpose-built for program leads who need clarity, control, and compliance.</p>
           <ul class="checklist">
             <li>Publish timed crisis scenarios.</li>
@@ -173,7 +185,7 @@
             <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
           </div>
         </div>
-        <div class="panel">
+        <div class="panel manager-panel" data-panel>
           <div class="panel-header">
             <div>
               <p class="label">Manager Panel</p>
@@ -181,28 +193,123 @@
             </div>
             <span class="pill subtle">Isolated</span>
           </div>
+          <div class="panel-tabs" role="tablist" aria-label="Manager views">
+            <button class="panel-tab active" type="button" data-panel-tab="overview" role="tab" aria-selected="true">Overview</button>
+            <button class="panel-tab" type="button" data-panel-tab="roster" role="tab" aria-selected="false">Roster</button>
+            <button class="panel-tab" type="button" data-panel-tab="approvals" role="tab" aria-selected="false">Approvals</button>
+            <button class="panel-tab" type="button" data-panel-tab="drill" role="tab" aria-selected="false">Drill Mode</button>
+          </div>
           <div class="panel-body">
-            <div class="control-row">
-              <span>Scenario</span>
-              <span class="pill accent">Credit Shock</span>
+            <div class="panel-view active" data-panel-view="overview">
+              <div class="panel-metrics">
+                <div class="metric">
+                  <p class="label">Active Seats</p>
+                  <h4 data-metric="seats">142</h4>
+                </div>
+                <div class="metric">
+                  <p class="label">Risk Limit</p>
+                  <h4 data-metric="risk">25%</h4>
+                </div>
+                <div class="metric">
+                  <p class="label">Trade Queue</p>
+                  <h4 data-metric="queue">18</h4>
+                </div>
+              </div>
+              <div class="mini-chart" aria-hidden="true">
+                <div class="chart-header">
+                  <span>Volume</span>
+                  <div class="chart-range">
+                    <button class="range-btn active" type="button" data-range="7d">1W</button>
+                    <button class="range-btn" type="button" data-range="30d">1M</button>
+                    <button class="range-btn" type="button" data-range="90d">1Q</button>
+                  </div>
+                </div>
+                <svg viewBox="0 0 240 90" preserveAspectRatio="none" class="sparkline">
+                  <polyline class="sparkline-line" fill="none" stroke="var(--accent)" stroke-width="3" points="0,70 40,62 80,66 120,48 160,44 200,35 240,42" />
+                  <polyline class="sparkline-fill" fill="rgba(214,67,88,0.18)" stroke="none" points="0,90 0,70 40,62 80,66 120,48 160,44 200,35 240,42 240,90" />
+                </svg>
+              </div>
+              <div class="toggle-list">
+                <button class="toggle" type="button" data-toggle="drill" aria-pressed="false">
+                  <span class="toggle-label">Crisis Drill Mode</span>
+                  <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+                </button>
+                <button class="toggle" type="button" data-toggle="freeze" aria-pressed="false">
+                  <span class="toggle-label">Freeze Trades</span>
+                  <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+                </button>
+                <button class="toggle is-on" type="button" data-toggle="risk" aria-pressed="true">
+                  <span class="toggle-label">Risk Limit Guard</span>
+                  <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+                </button>
+              </div>
             </div>
-            <div class="control-row">
-              <span>Trading Window</span>
-              <span class="pill subtle">09:00 - 16:00</span>
+            <div class="panel-view" data-panel-view="roster">
+              <div class="panel-list">
+                <div class="panel-row">
+                  <div>
+                    <p class="label">Team Apex</p>
+                    <p class="muted">32 seats · Lead: Farah H.</p>
+                  </div>
+                  <span class="pill accent">Active</span>
+                </div>
+                <div class="panel-row">
+                  <div>
+                    <p class="label">Team Orbit</p>
+                    <p class="muted">28 seats · Lead: Owen J.</p>
+                  </div>
+                  <button class="btn ghost small" type="button" data-action="ping">Send Ping</button>
+                </div>
+                <div class="panel-row">
+                  <div>
+                    <p class="label">Team Meridian</p>
+                    <p class="muted">41 seats · Lead: Sana R.</p>
+                  </div>
+                  <span class="pill subtle">Queued</span>
+                </div>
+              </div>
             </div>
-            <div class="control-row">
-              <span>Short Limit</span>
-              <span class="pill subtle">25% exposure</span>
+            <div class="panel-view" data-panel-view="approvals">
+              <div class="panel-list">
+                <div class="panel-row">
+                  <div>
+                    <p class="label">Short Request · MBX</p>
+                    <p class="muted">Exposure 12% · Team Apex</p>
+                  </div>
+                  <button class="btn ghost small" type="button" data-action="approve">Approve</button>
+                </div>
+                <div class="panel-row">
+                  <div>
+                    <p class="label">New Trader · EDU</p>
+                    <p class="muted">Seat add · Team Orbit</p>
+                  </div>
+                  <button class="btn ghost small" type="button" data-action="approve">Approve</button>
+                </div>
+                <div class="panel-row">
+                  <div>
+                    <p class="label">Scenario Publish</p>
+                    <p class="muted">Liquidity shock · Pending</p>
+                  </div>
+                  <button class="btn ghost small" type="button" data-action="approve">Approve</button>
+                </div>
+              </div>
             </div>
-            <div class="control-row">
-              <span>Price Update</span>
-              <span class="pill accent">Live</span>
-            </div>
-            <div class="control-row">
-              <span>Participants</span>
-              <span class="pill subtle">142</span>
+            <div class="panel-view" data-panel-view="drill">
+              <div class="panel-row stacked">
+                <p class="label">Scenario</p>
+                <p class="muted">Credit shock with 30% spread widening.</p>
+              </div>
+              <div class="panel-row stacked">
+                <p class="label">Trading Window</p>
+                <p class="muted">09:00 - 16:00 · Auto-freeze on limit breach.</p>
+              </div>
+              <div class="panel-actions">
+                <button class="btn small" type="button" data-action="run-drill">Run Drill</button>
+                <button class="btn ghost small" type="button" data-action="send-alert">Send Alert</button>
+              </div>
             </div>
           </div>
+          <div class="panel-toast" role="status" aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -210,8 +317,8 @@
     <section class="section security" id="security" data-reveal>
       <div class="container">
         <div class="section-header">
-          <p class="eyebrow">Security &amp; privacy</p>
-          <h2>Guardrails for every institution</h2>
+          <p class="eyebrow">Security &amp; Privacy</p>
+          <h2>Guardrails for Every Institution</h2>
           <p class="section-lead">Privacy-first design keeps cohorts isolated and credentials protected.</p>
         </div>
         <div class="badge-grid">
@@ -219,28 +326,28 @@
             <div class="icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M12 2l7 4v5c0 5-3 8-7 11-4-3-7-6-7-11V6l7-4z" fill="currentColor" opacity="0.2"/><path d="M12 4l5 3v4.5c0 3.5-2.2 5.9-5 8-2.8-2.1-5-4.5-5-8V7l5-3z" fill="currentColor"/></svg>
             </div>
-            <h3>Data isolation</h3>
+            <h3>Data Isolation</h3>
             <p>Every institution is walled off—no cross-portal visibility or shared feeds.</p>
           </div>
           <div class="badge">
             <div class="icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M5 12.5l5 5L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
             </div>
-            <h3>Domain-restricted login</h3>
+            <h3>Domain-Restricted Login</h3>
             <p>Google sign-in limited to approved domains, plus secure local authentication.</p>
           </div>
           <div class="badge">
             <div class="icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
             </div>
-            <h3>Secure sessions</h3>
+            <h3>Secure Sessions</h3>
             <p>Hashed passwords, signed sessions, and least-privilege access by design.</p>
           </div>
           <div class="badge">
             <div class="icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 12h8" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3>No data leakage</h3>
+            <h3>No Data Leakage</h3>
             <p>Institution data never commingles; exports and reports stay within your portal.</p>
           </div>
         </div>
@@ -251,7 +358,7 @@
       <div class="container">
         <div class="section-header">
           <p class="eyebrow">FAQ</p>
-          <h2>Answers for admins and students</h2>
+          <h2>Answers for Admins and Students</h2>
         </div>
         <div class="accordion">
           <button class="accordion-item" aria-expanded="false">
@@ -302,7 +409,7 @@
       <div class="container contact-grid">
         <div>
           <p class="eyebrow">Contact</p>
-          <h2>Let’s talk about your next simulation</h2>
+          <h2>Let’s Talk About Your Next Simulation</h2>
           <p class="section-lead">Email us at <a href="mailto:hello@money-blocks.org">hello@money-blocks.org</a> for demos, pricing, or security reviews.</p>
         </div>
         <div class="cta-inline">
@@ -319,8 +426,8 @@
         <p class="muted">Money Blocks is a simulation platform; not financial advice.</p>
       </div>
       <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
         <a href="mailto:hello@money-blocks.org">Contact</a>
       </div>
       <p class="muted copy">© <span id="year"></span> Money Blocks. All rights reserved.</p>
