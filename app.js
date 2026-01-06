@@ -356,9 +356,9 @@ if (managerPanel) {
       sparkFill.setAttribute('points', crashFill);
     }
 
-    // Update Metrics to Danger
+    // Update Metrics to Elevated
     if (metrics.risk) metrics.risk.textContent = 'Elevated';
-    if (metrics.seats) metrics.seats.textContent = '142 (!!!)';
+    if (metrics.seats) metrics.seats.textContent = '142';
 
     showToast('⚠️ MARKET CRASH TRIGGERED');
   };
