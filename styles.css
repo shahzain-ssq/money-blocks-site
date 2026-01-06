@@ -493,3 +493,34 @@ a { color: inherit; text-decoration: none; }
     transform: none;
   }
 }
+.manager-panel.frozen .panel-body {
+  opacity: 0.6;
+  pointer-events: none; /* Optional: prevent interaction when frozen */
+  filter: grayscale(0.5);
+}
+
+.manager-panel.frozen .toggle-list {
+  pointer-events: auto; /* Keep toggles interactive */
+  opacity: 1;
+  filter: none;
+}
+
+.manager-panel.frozen::after {
+  content: "TRADING FROZEN";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(214, 67, 88, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Ensure the toggles are still clickable above the overlay if necessary,
+   though the pseudo-element is pointer-events: none so it should be fine. */

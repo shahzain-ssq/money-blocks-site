@@ -50,20 +50,6 @@
             <a class="btn" href="https://finance.money-blocks.org" target="_blank" rel="noopener noreferrer">Launch Portal</a>
             <a class="btn ghost" href="/how">See How It Works</a>
           </div>
-          <div class="hero-stats">
-            <div class="stat-card" data-reveal>
-              <p class="label">Active Cohorts</p>
-              <h3 class="stat-number" data-count="42" data-suffix="+">0</h3>
-            </div>
-            <div class="stat-card" data-reveal>
-              <p class="label">Simulated Trades</p>
-              <h3 class="stat-number" data-count="120000" data-suffix="+">0</h3>
-            </div>
-            <div class="stat-card" data-reveal>
-              <p class="label">Avg. Drill Response</p>
-              <h3 class="stat-number" data-count="18" data-suffix="s">0</h3>
-            </div>
-          </div>
         </div>
         <div class="hero-visual" aria-label="Mock dashboard showing portfolio and stocks">
           <div class="dashboard">
@@ -101,12 +87,12 @@
     <section class="trust" id="trusted-by" aria-label="Trusted by" data-reveal>
       <div class="container trust-strip">
         <p>Trusted By</p>
-        <div class="logos">
+        <div class="logo-item logo-image">
+            <img src="img/nixor_white.png" alt="Nixor">
+          </div><div class="logos">
           <div class="logo-item">Universities</div>
           <div class="logo-item">Colleges</div>
-          <div class="logo-item logo-image">
-            <img src="img/nixor_white.png" alt="Nixor">
-          </div>
+
           <div class="logo-item">Student Investment Clubs</div>
           <div class="logo-item">Business Societies</div>
         </div>
@@ -197,14 +183,7 @@
             </div>
             <span class="pill subtle">Isolated</span>
           </div>
-          <div class="panel-tabs" role="tablist" aria-label="Manager views">
-            <button class="panel-tab active" type="button" data-panel-tab="overview" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview">Overview</button>
-            <button class="panel-tab" type="button" data-panel-tab="roster" role="tab" aria-selected="false" aria-controls="panel-roster" id="tab-roster">Roster</button>
-            <button class="panel-tab" type="button" data-panel-tab="approvals" role="tab" aria-selected="false" aria-controls="panel-approvals" id="tab-approvals">Approvals</button>
-            <button class="panel-tab" type="button" data-panel-tab="drill" role="tab" aria-selected="false" aria-controls="panel-drill" id="tab-drill">Drill Mode</button>
-          </div>
           <div class="panel-body">
-            <div class="panel-view active" data-panel-view="overview" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
               <div class="panel-metrics">
                 <div class="metric">
                   <p class="label">Active Seats</p>
@@ -247,71 +226,6 @@
                   <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
                 </button>
               </div>
-            </div>
-            <div class="panel-view" data-panel-view="roster" role="tabpanel" id="panel-roster" aria-labelledby="tab-roster">
-              <div class="panel-list">
-                <div class="panel-row">
-                  <div>
-                    <p class="label">Team Apex</p>
-                    <p class="muted">32 seats · Lead: Farah H.</p>
-                  </div>
-                  <span class="pill accent">Active</span>
-                </div>
-                <div class="panel-row">
-                  <div>
-                    <p class="label">Team Orbit</p>
-                    <p class="muted">28 seats · Lead: Owen J.</p>
-                  </div>
-                  <button class="btn ghost small" type="button" data-action="ping">Send Ping</button>
-                </div>
-                <div class="panel-row">
-                  <div>
-                    <p class="label">Team Meridian</p>
-                    <p class="muted">41 seats · Lead: Sana R.</p>
-                  </div>
-                  <span class="pill subtle">Queued</span>
-                </div>
-              </div>
-            </div>
-            <div class="panel-view" data-panel-view="approvals" role="tabpanel" id="panel-approvals" aria-labelledby="tab-approvals">
-              <div class="panel-list">
-                <div class="panel-row">
-                  <div>
-                    <p class="label">Short Request · MBX</p>
-                    <p class="muted">Exposure 12% · Team Apex</p>
-                  </div>
-                  <button class="btn ghost small" type="button" data-action="approve">Approve</button>
-                </div>
-                <div class="panel-row">
-                  <div>
-                    <p class="label">New Trader · EDU</p>
-                    <p class="muted">Seat add · Team Orbit</p>
-                  </div>
-                  <button class="btn ghost small" type="button" data-action="approve">Approve</button>
-                </div>
-                <div class="panel-row">
-                  <div>
-                    <p class="label">Scenario Publish</p>
-                    <p class="muted">Liquidity shock · Pending</p>
-                  </div>
-                  <button class="btn ghost small" type="button" data-action="approve">Approve</button>
-                </div>
-              </div>
-            </div>
-            <div class="panel-view" data-panel-view="drill" role="tabpanel" id="panel-drill" aria-labelledby="tab-drill">
-              <div class="panel-row stacked">
-                <p class="label">Scenario</p>
-                <p class="muted">Credit shock with 30% spread widening.</p>
-              </div>
-              <div class="panel-row stacked">
-                <p class="label">Trading Window</p>
-                <p class="muted">09:00 - 16:00 · Auto-freeze on limit breach.</p>
-              </div>
-              <div class="panel-actions">
-                <button class="btn small" type="button" data-action="run-drill">Run Drill</button>
-                <button class="btn ghost small" type="button" data-action="send-alert">Send Alert</button>
-              </div>
-            </div>
           </div>
           <div class="panel-toast" role="status" aria-live="polite"></div>
         </div>
