@@ -64,6 +64,8 @@ const routePaths = new Set(sectionRoutes.map(route => route.path));
 const navLinkEls = document.querySelectorAll('.nav-links a');
 let navigationInProgress = false;
 let navigationTimeout;
+let isProgrammaticScroll = false;
+let userScrolled = false;
 
 function updateActiveNav(path) {
   navLinkEls.forEach(link => {
@@ -91,14 +93,26 @@ if (isLanding) {
       if (!sectionId) return;
       event.preventDefault();
       navigationInProgress = true;
+      isProgrammaticScroll = true;
+      userScrolled = false;
       window.clearTimeout(navigationTimeout);
       history.pushState({ sectionId }, '', href);
       scrollToSection(sectionId, prefersReducedMotion ? 'auto' : 'smooth');
       setNavState(false);
       updateActiveNav(href);
-      const clearNavigation = () => {
-        navigationInProgress = false;
+      const markUserScrolled = () => {
+        userScrolled = true;
       };
+      const clearNavigation = () => {
+        if (isProgrammaticScroll && !userScrolled) {
+          navigationInProgress = false;
+        }
+        isProgrammaticScroll = false;
+        userScrolled = false;
+      };
+      window.addEventListener('wheel', markUserScrolled, { once: true, passive: true });
+      window.addEventListener('touchstart', markUserScrolled, { once: true, passive: true });
+      window.addEventListener('keydown', markUserScrolled, { once: true });
       if ('onscrollend' in document) {
         document.addEventListener('scrollend', clearNavigation, { once: true });
       } else {
