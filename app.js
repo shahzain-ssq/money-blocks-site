@@ -282,20 +282,19 @@ if (managerPanel) {
     toastTimeout = window.setTimeout(() => toast.classList.remove('show'), 2200);
   };
 
-  managerPanel.querySelectorAll('.toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const isOn = toggle.classList.toggle('is-on');
-      toggle.setAttribute('aria-pressed', String(isOn));
-      const label = toggle.querySelector('.toggle-label')?.textContent?.trim() || 'Setting';
+  managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      const isOn = checkbox.checked;
+      const label = checkbox.closest('.toggle-row').querySelector('span').textContent.trim();
       showToast(`${label} ${isOn ? 'enabled' : 'disabled'}.`);
       
       // Visual feedback for Freeze Trades
-      if (toggle.dataset.toggle === 'freeze') {
+      if (checkbox.dataset.toggle === 'freeze') {
         managerPanel.classList.toggle('frozen', isOn);
       }
       
-      if (toggle.dataset.toggle === 'risk' && metrics.risk) {
-        metrics.risk.textContent = isOn ? '25%' : '18%';
+      if (checkbox.dataset.toggle === 'risk' && metrics.risk) {
+        metrics.risk.textContent = isOn ? '25%' : 'CRITICAL';
       }
     });
   });
@@ -342,10 +341,10 @@ if (managerPanel) {
     if (crashNotes.calm) crashNotes.calm.style.opacity = '0';
 
     // Disable toggles
-    managerPanel.querySelectorAll('.toggle').forEach(t => {
-      t.classList.add('disabled-by-crash');
-      t.style.opacity = '0.5';
-      t.style.cursor = 'not-allowed';
+    managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(t => {
+      t.disabled = true;
+      t.closest('.toggle-row').style.opacity = '0.5';
+      t.closest('.toggle-row').style.cursor = 'not-allowed';
     });
 
     // Animate Chart Crash
@@ -380,10 +379,10 @@ if (managerPanel) {
     }
 
     // Re-enable toggles
-    managerPanel.querySelectorAll('.toggle').forEach(t => {
-      t.classList.remove('disabled-by-crash');
-      t.style.opacity = '';
-      t.style.cursor = '';
+    managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(t => {
+      t.disabled = false;
+      t.closest('.toggle-row').style.opacity = '';
+      t.closest('.toggle-row').style.cursor = '';
     });
 
     // Restore Chart (default to 7d or current active)
@@ -410,15 +409,19 @@ if (managerPanel) {
   if (stabilizeBtn) stabilizeBtn.addEventListener('click', stabilizeMarket);
 
   // Handle clicks on disabled toggles
-  managerPanel.querySelectorAll('.toggle').forEach(toggle => {
-    toggle.addEventListener('click', (e) => {
+  managerPanel.querySelectorAll('.toggle-row').forEach(row => {
+    row.addEventListener('click', (e) => {
       if (isCrashed) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        showToast('❌ System Breaking. Controls Locked.');
-        // Add a little shake to the toggle
-        toggle.style.transform = 'translateX(5px)';
-        setTimeout(() => toggle.style.transform = '', 100);
+        // Find the checkbox within this row
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        if (checkbox && checkbox.disabled) {
+             // e.preventDefault() on the row click doesn't stop checkbox if clicked directly,
+             // but the checkbox is disabled so it won't change.
+             // We just want to show the toast.
+             showToast('❌ System Breaking. Controls Locked.');
+             row.style.transform = 'translateX(5px)';
+             setTimeout(() => row.style.transform = '', 100);
+        }
       }
     });
   });
