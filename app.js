@@ -327,3 +327,33 @@ const yearEl = document.getElementById('year');
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
+
+// 3D Tilt Effect
+document.addEventListener('mousemove', (e) => {
+  const tiltElements = document.querySelectorAll('.hero-visual .dashboard, .manager-panel');
+
+  tiltElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Check if mouse is near the element (within 100px) to trigger effect
+    if (
+      e.clientX > rect.left - 50 &&
+      e.clientX < rect.right + 50 &&
+      e.clientY > rect.top - 50 &&
+      e.clientY < rect.bottom + 50
+    ) {
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -4; // Max rotation deg
+      const rotateY = ((x - centerX) / centerX) * 4;
+
+      el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    } else {
+      // Reset if far away
+      el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+    }
+  });
+});
