@@ -105,7 +105,7 @@ if (isLanding) {
 
   window.addEventListener('popstate', () => {
     const sectionId = history.state?.sectionId || routeLookup[window.location.pathname];
-    if (sectionId) {
+    if (sectionId && document.getElementById(sectionId)) {
       scrollToSection(sectionId, prefersReducedMotion ? 'auto' : 'smooth');
       updateActiveNav(window.location.pathname);
     }
@@ -308,7 +308,7 @@ if (managerPanel) {
   managerPanel.querySelectorAll('[data-action]').forEach(button => {
     button.addEventListener('click', () => {
       const action = button.dataset.action || 'Action';
-      showToast(`${action.replace('-', ' ')} sent.`);
+      showToast(`${action.replaceAll('-', ' ')} sent.`);
     });
   });
 
