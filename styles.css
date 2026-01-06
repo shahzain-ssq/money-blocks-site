@@ -27,9 +27,9 @@
 
 .doodle-arrow {
   position: absolute;
-  bottom: -40px;
-  right: -50px;
-  transform: rotate(-10deg);
+  bottom: -35px;
+  right: -60px;
+  transform: rotate(0deg); /* Stabilize direction */
   pointer-events: none;
   filter: drop-shadow(0 0 8px rgba(255, 102, 204, 0.4));
   z-index: 5;
@@ -43,10 +43,51 @@ body {
               radial-gradient(circle at 85% 10%, rgba(168, 85, 247, 0.1), transparent 40%),
               url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"),
               var(--bg);
+  background-attachment: fixed; /* Parallax-like feel */
   color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 20% 80%, rgba(204, 255, 0, 0.05) 0, transparent 20%),
+    radial-gradient(circle at 80% 20%, rgba(255, 102, 204, 0.05) 0, transparent 20%);
+  background-size: 40px 40px, 60% 60%, 60% 60%;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* Floating Shapes Background */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='2' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 100 L0 100 Z' fill='none' stroke='%23ccff00' stroke-opacity='0.05' stroke-width='2' transform='rotate(15 50 50)'/%3E%3C/svg%3E");
+  background-position: 0 0, 80% 20%;
+  animation: float-bg 20s linear infinite;
+}
+
+@keyframes float-bg {
+  0% { background-position: 0 0, 80% 20%; }
+  100% { background-position: 100px 100px, 70% 30%; }
 }
 
 a { color: inherit; text-decoration: none; }
@@ -123,7 +164,13 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 10px 30px rgba(204, 255, 0, 0.4);
 }
 
-.btn:active { transform: translateY(0); }
+.btn:active {
+  transform: scale(0.95) translateY(0);
+}
+
+.squash-stretch:active {
+  animation: pulse 0.2s ease-in-out;
+}
 
 .btn.ghost {
   background: transparent;
@@ -194,6 +241,9 @@ a { color: inherit; text-decoration: none; }
   padding: 18px;
   box-shadow: var(--shadow);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative; /* Ensure children z-index works */
+  z-index: 1;
+  animation: breathe-soft 4s ease-in-out infinite;
 }
 
 .hero-visual:hover .dashboard {
@@ -273,6 +323,28 @@ a { color: inherit; text-decoration: none; }
   border: none;
   padding: 0;
   border-radius: 0;
+}
+
+/* Fix Zero Risk z-index issue */
+.dashboard .handwritten {
+  z-index: 10;
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+.handwritten.loud {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.handwritten.start-here {
+  font-size: 1.1rem;
+  font-weight: 800;
+  opacity: 1;
+  color: var(--accent-secondary);
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .logo-item.logo-image img { 
   max-height: 200px; /* Significantly increased from 60px */
@@ -600,21 +672,77 @@ a { color: inherit; text-decoration: none; }
   100% { transform: translateY(0px); }
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80% { transform: translateX(4px); }
+@keyframes float-fast {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
-.crash-mode {
-  --accent: #ff4d4d;
-  --success: #ff4d4d;
-  --shadow: 0 20px 60px rgba(255, 77, 77, 0.15);
+@keyframes wiggle {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: 2deg; }
 }
 
-.crash-mode .manager-panel {
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(0.98); }
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -10px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes shake-screen {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes breathe-soft {
+  0%, 100% { transform: scale(1); box-shadow: var(--shadow); }
+  50% { transform: scale(1.01); box-shadow: 0 30px 80px rgba(204, 255, 0, 0.1); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+}
+
+.crash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, transparent 0%, rgba(255, 0, 0, 0.4) 100%);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.crash-mode .crash-overlay {
+  opacity: 1;
+  animation: pulse-red 0.5s infinite alternate;
+}
+
+body.crash-mode {
+  animation: shake-screen 0.5s infinite;
+}
+
+.crash-mode .dashboard {
   border-color: var(--danger);
-  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  box-shadow: 0 0 50px rgba(255, 77, 77, 0.3);
 }
 
 .crash-mode .chart polyline,
