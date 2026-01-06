@@ -317,14 +317,36 @@ if (managerPanel) {
   });
 
   // Crash Simulation Logic
-  const crashBtn = document.getElementById('crash-btn');
-  const stabilizeBtn = document.getElementById('stabilize-btn');
+  const crashBtn = document.getElementById('trigger-crash');
+  const stabilizeBtn = document.getElementById('stabilize-market');
   let isCrashed = false;
+
+  // Cache crash notes
+  const crashNotes = {
+    uhOh: document.getElementById('crash-note'),
+    calm: document.getElementById('calm-note')
+  };
 
   const triggerCrash = () => {
     if (isCrashed) return;
     isCrashed = true;
     document.body.classList.add('crash-mode');
+
+    // Reveal "uh oh" note
+    if (crashNotes.uhOh) {
+      crashNotes.uhOh.style.opacity = '1';
+      crashNotes.uhOh.style.transform = 'translate(-50%, -50%) rotate(-5deg) scale(1.2)';
+      crashNotes.uhOh.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    }
+
+    if (crashNotes.calm) crashNotes.calm.style.opacity = '0';
+
+    // Disable toggles
+    managerPanel.querySelectorAll('.toggle').forEach(t => {
+      t.classList.add('disabled-by-crash');
+      t.style.opacity = '0.5';
+      t.style.cursor = 'not-allowed';
+    });
 
     // Animate Chart Crash
     if (sparkline && sparkFill) {
@@ -346,6 +368,23 @@ if (managerPanel) {
     if (!isCrashed) return;
     isCrashed = false;
     document.body.classList.remove('crash-mode');
+
+    // Hide "uh oh", show "calm now"
+    if (crashNotes.uhOh) crashNotes.uhOh.style.opacity = '0';
+    if (crashNotes.calm) {
+      crashNotes.calm.style.opacity = '1';
+      crashNotes.calm.style.transition = 'opacity 0.5s ease 0.2s';
+      setTimeout(() => {
+        crashNotes.calm.style.opacity = '0';
+      }, 3000);
+    }
+
+    // Re-enable toggles
+    managerPanel.querySelectorAll('.toggle').forEach(t => {
+      t.classList.remove('disabled-by-crash');
+      t.style.opacity = '';
+      t.style.cursor = '';
+    });
 
     // Restore Chart (default to 7d or current active)
     const activeRangeBtn = Array.from(rangeButtons).find(btn => btn.classList.contains('active'));
@@ -369,6 +408,35 @@ if (managerPanel) {
 
   if (crashBtn) crashBtn.addEventListener('click', triggerCrash);
   if (stabilizeBtn) stabilizeBtn.addEventListener('click', stabilizeMarket);
+
+  // Handle clicks on disabled toggles
+  managerPanel.querySelectorAll('.toggle').forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      if (isCrashed) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        showToast('❌ System Breaking. Controls Locked.');
+        // Add a little shake to the toggle
+        toggle.style.transform = 'translateX(5px)';
+        setTimeout(() => toggle.style.transform = '', 100);
+      }
+    });
+  });
+
+  // Proactive "Alive" Animations (Wiggle periodically)
+  const wiggleElements = document.querySelectorAll('.doodle-wiggle, .handwritten');
+  setInterval(() => {
+    wiggleElements.forEach(el => {
+      // Random chance to wiggle
+      if (Math.random() > 0.7) {
+        el.style.animation = 'wiggle 0.6s ease-in-out';
+        // Reset animation
+        setTimeout(() => {
+          el.style.animation = '';
+        }, 600);
+      }
+    });
+  }, 3000);
 }
 
 // Dynamic year

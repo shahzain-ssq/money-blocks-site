@@ -174,87 +174,118 @@
       </div>
     </section>
 
-    <section class="section institutions" id="institutions" data-reveal>
-      <div class="container institutions-grid">
-        <div>
-          <p class="eyebrow">For Institutions</p>
-          <h2>Manager Controls Made Simple</h2>
-          <p class="section-lead">Purpose-built for program leads who need clarity, control, and compliance.</p>
-          <ul class="checklist">
-            <li>Publish timed crisis scenarios.</li>
-            <li>Update prices or pauses instantly.</li>
-            <li>Set stock availability and trading windows.</li>
-            <li>Define per-user and shorting limits.</li>
-            <li>Review participant portfolios by institution.</li>
-          </ul>
-          <div class="cta-inline">
-            <a class="btn ghost" href="mailto:hello@money-blocks.org">Request a Demo</a>
-          </div>
-        </div>
-        <div class="panel manager-panel" data-panel>
-          <div class="panel-header">
-            <div>
-              <p class="label">Manager Panel</p>
-              <h3>Live Controls</h3>
+        <section class="hero-split" id="institutions" data-reveal>
+            <div class="content">
+                <span class="tag">For Institutions</span>
+                <h1 class="loud">Manager Controls Made Simple</h1>
+                <p>Purpose-built for program leads who need clarity, control, and compliance.</p>
+
+                <ul class="feature-list">
+                    <li>Publish timed crisis scenarios.</li>
+                    <li>Update prices or pauses instantly.</li>
+                    <li>Set stock availability and trading windows.</li>
+                    <li>Define per-user and shorting limits.</li>
+                    <li>Review participant portfolios by institution.</li>
+                </ul>
+
+                <div class="cta-group">
+                    <a href="#" class="btn btn-secondary interactive">Request a Demo</a>
+                    <span class="handwritten doodle-arrow" style="top: 10px; left: 180px;">See how it works</span>
+                </div>
             </div>
-            <span class="pill subtle">Isolated</span>
-          </div>
-          <div class="panel-body">
-              <div class="panel-metrics">
-                <div class="metric">
-                  <p class="label">Active Seats</p>
-                  <h4 data-metric="seats">142</h4>
+
+            <div class="visual">
+                <!-- Visual Guidance Doodle -->
+                <div class="handwritten visual-guidance" style="position: absolute; top: -40px; right: 50px; color: var(--neon-lime); transform: rotate(10deg);">
+                    Try breaking the market <span style="font-size: 2rem;">⤵</span>
                 </div>
-                <div class="metric">
-                  <p class="label">Risk Limit</p>
-                  <h4 data-metric="risk">25%</h4>
+
+                <div class="dashboard manager-panel">
+                    <div class="panel-header">
+                        <h2>Live Controls</h2>
+                        <div class="status-indicator live"></div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <label>Active Seats</label>
+                            <div class="value" data-metric="seats">142 (!!!)</div>
+                        </div>
+                        <div class="stat-card">
+                            <label>Risk Limit</label>
+                            <div class="value" data-metric="risk">CRITICAL</div>
+                        </div>
+                        <div class="stat-card">
+                            <label>Trade Queue</label>
+                            <div class="value" data-metric="queue">18</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-area">
+                        <div class="chart-header">
+                            <span>Volume</span>
+                            <div class="chart-controls">
+                                <button class="active" data-range="7d">1W</button>
+                                <button data-range="30d">1M</button>
+                                <button data-range="90d">1Q</button>
+                            </div>
+                        </div>
+                        <!-- Hidden Crash Note -->
+                        <div id="crash-note" class="handwritten" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-10deg); color: #ff4444; font-size: 2.5rem; opacity: 0; transition: opacity 0.3s;">
+                            uh oh.
+                        </div>
+                        <!-- Hidden Calm Note -->
+                         <div id="calm-note" class="handwritten" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(5deg); color: var(--neon-lime); font-size: 2.5rem; opacity: 0; transition: opacity 0.3s;">
+                            ok... calm now
+                        </div>
+                        <svg viewBox="0 0 300 100" class="mini-chart">
+                            <path class="sparkline-line" d="M0,80 C50,70 100,60 150,40 C200,20 250,80 300,90" stroke="var(--neon-lime)" fill="none" stroke-width="2"/>
+                            <path class="sparkline-fill" d="M0,80 C50,70 100,60 150,40 C200,20 250,80 300,90 L300,100 L0,100 Z" fill="url(#gradient)" opacity="0.2"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--neon-lime);stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:var(--neon-lime);stop-opacity:0" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <div class="control-actions">
+                        <button id="trigger-crash" class="btn btn-danger squash-stretch">Trigger Crash</button>
+                        <button id="stabilize-market" class="btn btn-primary squash-stretch">Stabilize</button>
+                    </div>
+
+                    <div class="toggles">
+                        <div class="toggle-row">
+                            <span>Crisis Drill Mode</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <span>Freeze Trades</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <span>Risk Limit Guard</span>
+                            <!-- Toast Message placeholder handled by JS -->
+                        </div>
+
+                        <div class="handwritten" style="position: absolute; bottom: -30px; left: -20px; color: #666; font-size: 0.9rem; z-index: 10; white-space: nowrap;">
+                            Zero Risk
+                            <svg width="30" height="30" viewBox="0 0 50 50" style="position: absolute; top: -20px; right: -30px; transform: rotate(15deg);">
+                                <path d="M10,40 Q25,10 40,20" stroke="currentColor" fill="none" stroke-width="2"/>
+                                <path d="M40,20 L35,18 M40,20 L38,25" stroke="currentColor" fill="none" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="metric">
-                  <p class="label">Trade Queue</p>
-                  <h4 data-metric="queue">18</h4>
-                </div>
-              </div>
-              <div class="mini-chart" aria-hidden="true">
-                <div class="chart-header">
-                  <span>Volume</span>
-                  <div class="chart-range">
-                    <button class="range-btn active" type="button" data-range="7d">1W</button>
-                    <button class="range-btn" type="button" data-range="30d">1M</button>
-                    <button class="range-btn" type="button" data-range="90d">1Q</button>
-                  </div>
-                </div>
-                <svg viewBox="0 0 240 90" preserveAspectRatio="none" class="sparkline">
-                  <polyline class="sparkline-line" fill="none" stroke="var(--accent)" stroke-width="3" points="0,70 40,62 80,66 120,48 160,44 200,35 240,42" />
-                  <polyline class="sparkline-fill" fill="rgba(214,67,88,0.18)" stroke="none" points="0,90 0,70 40,62 80,66 120,48 160,44 200,35 240,42 240,90" />
-                </svg>
-              </div>
-              <div class="toggle-list">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
-                  <button class="btn small" type="button" id="crash-btn" style="background: var(--danger); color: white; border-radius: 8px;">
-                    Trigger Crash
-                  </button>
-                  <button class="btn small" type="button" id="stabilize-btn" style="background: var(--success); color: black; border-radius: 8px;">
-                    Stabilize
-                  </button>
-                </div>
-                <button class="toggle" type="button" data-toggle="drill" aria-pressed="false">
-                  <span class="toggle-label">Crisis Drill Mode</span>
-                  <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
-                </button>
-                <button class="toggle" type="button" data-toggle="freeze" aria-pressed="false">
-                  <span class="toggle-label">Freeze Trades</span>
-                  <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
-                </button>
-                <button class="toggle is-on" type="button" data-toggle="risk" aria-pressed="true">
-                  <span class="toggle-label">Risk Limit Guard</span>
-                  <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
-                </button>
-              </div>
-          </div>
-          <div class="panel-toast" role="status" aria-live="polite"></div>
-        </div>
-      </div>
-    </section>
+            </div>
+        </section>
 
     <section class="section security" id="security" data-reveal>
       <div class="container">
