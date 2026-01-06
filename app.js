@@ -251,6 +251,9 @@ if (counterEls.length && 'IntersectionObserver' in window) {
 // Manager panel interactions
 const managerPanel = document.querySelector('.manager-panel');
 if (managerPanel) {
+  const tabs = managerPanel.querySelectorAll('[data-panel-tab]');
+  const views = managerPanel.querySelectorAll('[data-panel-view]');
+  const tabList = managerPanel.querySelector('[role="tablist"]');
   const toast = managerPanel.querySelector('.panel-toast');
   const rangeButtons = managerPanel.querySelectorAll('[data-range]');
   const sparkline = managerPanel.querySelector('.sparkline-line');
@@ -287,21 +290,55 @@ if (managerPanel) {
     toastTimeout = window.setTimeout(() => toast.classList.remove('show'), 2200);
   };
 
+  const setActiveView = name => {
+    tabs.forEach(tab => {
+      const isActive = tab.dataset.panelTab === name;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', String(isActive));
+    });
+    views.forEach(view => {
+      view.classList.toggle('active', view.dataset.panelView === name);
+    });
+    showToast(`Switched to ${name.charAt(0).toUpperCase() + name.slice(1)}.`);
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => setActiveView(tab.dataset.panelTab));
+  });
+
+  tabList?.addEventListener('keydown', event => {
+    const tabsArray = [...tabs];
+    const currentIndex = tabsArray.findIndex(tab => tab === document.activeElement);
+    if (currentIndex === -1) return;
+    let nextIndex;
+    if (event.key === 'ArrowRight') {
+      nextIndex = (currentIndex + 1) % tabsArray.length;
+    } else if (event.key === 'ArrowLeft') {
+      nextIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabsArray[nextIndex].focus();
+    setActiveView(tabsArray[nextIndex].dataset.panelTab);
+  });
+
   managerPanel.querySelectorAll('.toggle').forEach(toggle => {
     toggle.addEventListener('click', () => {
       const isOn = toggle.classList.toggle('is-on');
       toggle.setAttribute('aria-pressed', String(isOn));
       const label = toggle.querySelector('.toggle-label')?.textContent?.trim() || 'Setting';
       showToast(`${label} ${isOn ? 'enabled' : 'disabled'}.`);
-
-      // Visual feedback for Freeze Trades
-      if (toggle.dataset.toggle === 'freeze') {
-        managerPanel.classList.toggle('frozen', isOn);
-      }
-
       if (toggle.dataset.toggle === 'risk' && metrics.risk) {
         metrics.risk.textContent = isOn ? '25%' : '18%';
       }
+    });
+  });
+
+  managerPanel.querySelectorAll('[data-action]').forEach(button => {
+    button.addEventListener('click', () => {
+      const action = button.dataset.action || 'Action';
+      showToast(`${action.replaceAll('-', ' ')} sent.`);
     });
   });
 
