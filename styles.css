@@ -1,10 +1,13 @@
 :root {
-  --bg: #050505; /* Darker, deeper black */
-  --panel: #111;
+  --bg: #0e0e10; /* Off-black */
+  --panel: #18181b;
   --muted: #a1a1aa;
   --text: #ffffff;
-  --accent: #ccff00; /* Gen Z Neon Lime */
+  --accent: #ccff00; /* Neon Lime */
   --accent-strong: #a3cc00;
+  --accent-secondary: #ff66cc; /* Soft Magenta */
+  --accent-tertiary: #00ccff; /* Cyan */
+  --accent-warn: #ffcc00; /* Warm Yellow */
   --border: #27272a;
   --success: #ccff00;
   --danger: #ff4d4d;
@@ -17,6 +20,9 @@
 .handwritten {
   font-family: 'Caveat', cursive;
   font-weight: 700;
+  transform: rotate(-2deg);
+  display: inline-block;
+  color: var(--accent-secondary);
 }
 
 .doodle-arrow {
@@ -35,6 +41,7 @@ body {
   margin: 0;
   background: radial-gradient(circle at 15% 15%, rgba(204, 255, 0, 0.08), transparent 35%),
               radial-gradient(circle at 85% 10%, rgba(168, 85, 247, 0.1), transparent 40%),
+              url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"),
               var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -100,17 +107,19 @@ a { color: inherit; text-decoration: none; }
   padding: 12px 20px;
   background: var(--accent);
   color: #000; /* Black text on neon for contrast */
-  border-radius: 999px; /* Pill shape */
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; /* Imperfect pill */
   font-weight: 800; /* Bolder */
   border: 1px solid transparent;
   box-shadow: 0 4px 20px rgba(204, 255, 0, 0.25);
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, filter 0.2s ease;
   letter-spacing: -0.02em;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn:hover,
 .btn:focus-visible { 
-  transform: scale(1.05) translateY(-2px); 
+  transform: scale(1.05) translateY(-2px) rotate(-1deg);
   box-shadow: 0 10px 30px rgba(204, 255, 0, 0.4);
 }
 
@@ -277,7 +286,18 @@ a { color: inherit; text-decoration: none; }
 .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-size: 12px; font-weight: 800; }
 
 .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 18px; }
-.card { background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent); border: 1px solid var(--border); border-radius: 16px; padding: 18px; min-height: 160px; box-shadow: var(--shadow); transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+  border: 1px solid var(--border);
+  border-radius: 16px 14px 18px 15px; /* Slight imperfection */
+  padding: 18px;
+  min-height: 160px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  animation: float 6s ease-in-out infinite;
+}
+.card:nth-child(even) { animation-delay: 1s; }
+.card:nth-child(3n) { animation-delay: 2s; }
 .card h3 { margin-top: 0; }
 .card p { color: var(--muted); }
 
@@ -573,3 +593,37 @@ a { color: inherit; text-decoration: none; }
 
 /* Ensure the toggles are still clickable above the overlay if necessary, 
    though the pseudo-element is pointer-events: none so it should be fine. */
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.crash-mode {
+  --accent: #ff4d4d;
+  --success: #ff4d4d;
+  --shadow: 0 20px 60px rgba(255, 77, 77, 0.15);
+}
+
+.crash-mode .manager-panel {
+  border-color: var(--danger);
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.crash-mode .chart polyline,
+.crash-mode .mini-chart polyline {
+  stroke: var(--danger);
+}
+
+.crash-mode .pill {
+  background: rgba(255, 77, 77, 0.2);
+  color: var(--danger);
+  border-color: var(--danger);
+}

@@ -315,6 +315,60 @@ if (managerPanel) {
       showToast(`Volume updated to ${button.textContent}.`);
     });
   });
+
+  // Crash Simulation Logic
+  const crashBtn = document.getElementById('crash-btn');
+  const stabilizeBtn = document.getElementById('stabilize-btn');
+  let isCrashed = false;
+
+  const triggerCrash = () => {
+    if (isCrashed) return;
+    isCrashed = true;
+    document.body.classList.add('crash-mode');
+
+    // Animate Chart Crash
+    if (sparkline && sparkFill) {
+      // Jittery crash line
+      const crashPoints = '0,70 40,65 60,60 80,90 120,110 160,105 200,120 240,115';
+      const crashFill = '0,130 0,70 40,65 60,60 80,90 120,110 160,105 200,120 240,115 240,130';
+      sparkline.setAttribute('points', crashPoints);
+      sparkFill.setAttribute('points', crashFill);
+    }
+
+    // Update Metrics to Danger
+    if (metrics.risk) metrics.risk.textContent = 'CRITICAL';
+    if (metrics.seats) metrics.seats.textContent = '142 (!!!)';
+
+    showToast('⚠️ MARKET CRASH TRIGGERED');
+  };
+
+  const stabilizeMarket = () => {
+    if (!isCrashed) return;
+    isCrashed = false;
+    document.body.classList.remove('crash-mode');
+
+    // Restore Chart (default to 7d or current active)
+    const activeRangeBtn = Array.from(rangeButtons).find(btn => btn.classList.contains('active'));
+    const range = activeRangeBtn ? activeRangeBtn.dataset.range : '7d';
+    const data = chartData[range];
+
+    if (data && sparkline && sparkFill) {
+      sparkline.setAttribute('points', data.points);
+      sparkFill.setAttribute('points', data.fill);
+    }
+
+    // Restore Metrics
+    if (data) {
+      Object.entries(data.metrics).forEach(([key, value]) => {
+        if (metrics[key]) metrics[key].textContent = value;
+      });
+    }
+
+    showToast('✅ Market Stabilized');
+  };
+
+  if (crashBtn) crashBtn.addEventListener('click', triggerCrash);
+  if (stabilizeBtn) stabilizeBtn.addEventListener('click', stabilizeMarket);
 }
 
 // Dynamic year
@@ -323,32 +377,47 @@ if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
 
-// 3D Tilt Effect
-document.addEventListener('mousemove', (e) => {
-  const tiltElements = document.querySelectorAll('.hero-visual .dashboard, .manager-panel');
-  
-  tiltElements.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Check if mouse is near the element (within 100px) to trigger effect
-    if (
-      e.clientX > rect.left - 50 && 
-      e.clientX < rect.right + 50 &&
-      e.clientY > rect.top - 50 &&
-      e.clientY < rect.bottom + 50
-    ) {
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+// 3D Tilt Effect - Enhanced & Playful
+if (!prefersReducedMotion) {
+  // Cache elements to avoid querying on every frame
+  const tiltElements = document.querySelectorAll('.hero-visual .dashboard, .manager-panel, .card, .doodle-arrow, .handwritten');
+
+  document.addEventListener('mousemove', (e) => {
+    tiltElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
       
-      const rotateX = ((y - centerY) / centerY) * -4; // Max rotation deg
-      const rotateY = ((x - centerX) / centerX) * 4;
-      
-      el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    } else {
-      // Reset if far away
-      el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    }
+      // Extended range for more "awareness"
+      if (
+        e.clientX > rect.left - 100 &&
+        e.clientX < rect.right + 100 &&
+        e.clientY > rect.top - 100 &&
+        e.clientY < rect.bottom + 100
+      ) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Slightly different intensity for different elements
+        const intensity = el.classList.contains('doodle-arrow') ? 15 : 6;
+
+        const rotateX = ((y - centerY) / centerY) * -intensity;
+        const rotateY = ((x - centerX) / centerX) * intensity;
+
+        // Doodles float more
+        const lift = el.classList.contains('doodle-arrow') || el.classList.contains('handwritten') ? 1.1 : 1.02;
+
+        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${lift}, ${lift}, ${lift})`;
+
+        // Add a slight playful rotation to doodles
+        if (el.classList.contains('doodle-arrow')) {
+             el.style.transform += ' rotate(-5deg)';
+        }
+
+      } else {
+        // Soft reset
+        el.style.transform = '';
+      }
+    });
   });
-});
+}

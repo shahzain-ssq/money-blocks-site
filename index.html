@@ -56,6 +56,7 @@
               </div>
             </div>
             <a class="btn ghost" href="#how">See How It Works</a>
+            <span class="handwritten" style="transform: rotate(4deg) translateY(10px); margin-left: 10px;">(It's easier than it looks!)</span>
           </div>
         </div>
         <div class="hero-visual" aria-label="Mock dashboard showing portfolio and stocks">
@@ -116,6 +117,11 @@
         </div>
         <div class="card-grid">
           <article class="card">
+            <div style="position:absolute; top:-10px; right:10px; transform:rotate(12deg);">
+              <svg width="40" height="40" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="20" fill="none" stroke="#ccff00" stroke-width="2" stroke-dasharray="80 30" transform="rotate(-45 25 25)"/>
+              </svg>
+            </div>
             <h3>Institution-Isolated Portals</h3>
             <p>Each institution runs in its own secured environment. No data ever leaves your cohort.</p>
           </article>
@@ -130,6 +136,7 @@
           <article class="card">
             <h3>Crisis Scenarios &amp; Controls</h3>
             <p>Publish institution-specific scenarios, set stock limits, and watch how teams respond.</p>
+            <span class="handwritten" style="color:var(--accent-warn); display:block; margin-top:10px;">Make them sweat a little.</span>
           </article>
         </div>
       </div>
@@ -146,6 +153,7 @@
             <div class="step-number">01</div>
             <h3>Select Institution</h3>
             <p>Choose or create a dedicated portal for your university or club.</p>
+            <span class="handwritten" style="position:absolute; bottom:15px; right:15px; font-size:0.9rem; transform:rotate(-5deg); opacity:0.7;">Start here</span>
           </div>
           <div class="step">
             <div class="step-number">02</div>
@@ -221,6 +229,14 @@
                 </svg>
               </div>
               <div class="toggle-list">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                  <button class="btn small" type="button" id="crash-btn" style="background: var(--danger); color: white; border-radius: 8px;">
+                    Trigger Crash
+                  </button>
+                  <button class="btn small" type="button" id="stabilize-btn" style="background: var(--success); color: black; border-radius: 8px;">
+                    Stabilize
+                  </button>
+                </div>
                 <button class="toggle" type="button" data-toggle="drill" aria-pressed="false">
                   <span class="toggle-label">Crisis Drill Mode</span>
                   <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
