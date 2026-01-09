@@ -308,11 +308,13 @@ if (managerPanel) {
   };
 
   const getActiveRange = () => {
+    if (managerPanelState.isCrashed) return null;
     const active = Array.from(rangeButtons).find(btn => btn.classList.contains('active'));
     return active?.dataset.range || '7d';
   };
 
   const updateChartForRange = range => {
+    if (managerPanelState.isCrashed || !range) return;
     const data = managerPanelState.drillMode ? drillChartData[range] : chartData[range];
     if (data && sparkline && sparkFill) {
       sparkline.setAttribute('points', data.points);
@@ -382,7 +384,9 @@ if (managerPanel) {
 
   rangeButtons.forEach(button => {
     button.addEventListener('click', () => {
+      if (managerPanelState.isCrashed) return;
       const range = button.dataset.range;
+      if (!range) return;
       rangeButtons.forEach(btn => {
         const isActive = btn === button;
         btn.classList.toggle('active', isActive);
@@ -427,8 +431,14 @@ if (managerPanel) {
       const key = t.dataset.toggle || 'unknown';
       managerPanelState.toggleStates[key] = t.checked;
       t.disabled = true;
-      t.closest('.toggle-row').style.opacity = '0.5';
-      t.closest('.toggle-row').style.cursor = 'not-allowed';
+      const row = t.closest('.toggle-row');
+      if (row) {
+        row.style.opacity = '0.5';
+        row.style.cursor = 'not-allowed';
+      }
+    });
+    rangeButtons.forEach(button => {
+      button.disabled = true;
     });
 
     // Animate Chart Crash
@@ -473,9 +483,16 @@ if (managerPanel) {
       const key = t.dataset.toggle || 'unknown';
       t.disabled = false;
       t.checked = Boolean(managerPanelState.toggleStates[key]);
-      t.closest('.toggle-row').style.opacity = '';
-      t.closest('.toggle-row').style.cursor = '';
+      const row = t.closest('.toggle-row');
+      if (row) {
+        row.style.opacity = '';
+        row.style.cursor = '';
+      }
     });
+    rangeButtons.forEach(button => {
+      button.disabled = false;
+    });
+    managerPanel.classList.toggle('frozen', Boolean(managerPanelState.toggleStates.freeze));
     if (managerPanelState.toggleStates.drill) {
       setDrillMode(true);
     } else {
@@ -512,18 +529,20 @@ if (managerPanel) {
 
   // Proactive "Alive" Animations (Wiggle periodically)
   const wiggleElements = document.querySelectorAll('.doodle-wiggle, .handwritten');
-  setInterval(() => {
-    wiggleElements.forEach(el => {
-      // Random chance to wiggle
-      if (Math.random() > 0.7) {
-        el.style.animation = 'wiggle 0.6s ease-in-out';
-        // Reset animation
-        setTimeout(() => {
-          el.style.animation = '';
-        }, 600);
-      }
-    });
-  }, 3000);
+  if (!prefersReducedMotion) {
+    window.setInterval(() => {
+      wiggleElements.forEach(el => {
+        // Random chance to wiggle
+        if (Math.random() > 0.7) {
+          el.style.animation = 'wiggle 0.6s ease-in-out';
+          // Reset animation
+          setTimeout(() => {
+            el.style.animation = '';
+          }, 600);
+        }
+      });
+    }, 3000);
+  }
 }
 
 // Dynamic year
