@@ -42,6 +42,7 @@ if (navToggle && nav) {
 // Click a nav link → menu closes and anchor scrolls correctly
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let managerPanelTiltDisabled = false;
 const isLanding = document.body.classList.contains('home');
 const sectionRoutes = [
   { id: 'hero', path: '#hero' },
@@ -311,8 +312,10 @@ if (managerPanel) {
     }
     if (data) {
       Object.entries(data.metrics).forEach(([key, value]) => {
-        if (key === 'risk' && riskToggle?.checked) {
-          if (metrics.risk) metrics.risk.textContent = '25%';
+        if (key === 'risk') {
+          const guardOn = Boolean(riskToggle?.checked);
+          const nextRisk = guardOn ? '25%' : value;
+          if (metrics.risk) metrics.risk.textContent = nextRisk;
           return;
         }
         if (metrics[key]) metrics[key].textContent = value;
@@ -323,7 +326,7 @@ if (managerPanel) {
   const setDrillMode = isOn => {
     managerPanelState.drillMode = isOn;
     managerPanel.classList.toggle('drill-mode', isOn);
-    if (drillStatus) drillStatus.setAttribute('aria-hidden', String(!isOn));
+    if (drillStatus) drillStatus.setAttribute('aria-hidden', 'true');
     if (drillAnnouncement) {
       drillAnnouncement.textContent = isOn ? 'Drill mode enabled.' : 'Drill mode disabled.';
     }
@@ -335,15 +338,17 @@ if (managerPanel) {
     const toast = document.createElement('div');
     toast.className = 'toast-item';
     toast.textContent = message;
-    toast.setAttribute('role', 'status');
     toastStack.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add('show'));
     const dismiss = () => {
       toast.classList.remove('show');
       window.setTimeout(() => toast.remove(), 200);
     };
-    toast.addEventListener('click', dismiss, { once: true });
-    window.setTimeout(dismiss, 3200);
+    const autoTimer = window.setTimeout(dismiss, 3200);
+    toast.addEventListener('click', () => {
+      window.clearTimeout(autoTimer);
+      dismiss();
+    }, { once: true });
   };
 
   managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(checkbox => {
@@ -361,8 +366,10 @@ if (managerPanel) {
         managerPanel.classList.toggle('frozen', isOn);
       }
       
-      if (checkbox.dataset.toggle === 'risk' && metrics.risk) {
-        metrics.risk.textContent = isOn ? '25%' : 'Elevated';
+      if (checkbox.dataset.toggle === 'risk') {
+        const data = managerPanelState.drillMode ? drillChartData[getActiveRange()] : chartData[getActiveRange()];
+        const nextRisk = isOn ? '25%' : (data?.metrics?.risk ?? 'Elevated');
+        if (metrics.risk) metrics.risk.textContent = nextRisk;
       }
     });
   });
@@ -393,6 +400,8 @@ if (managerPanel) {
   const triggerCrash = () => {
     if (managerPanelState.isCrashed) return;
     managerPanelState.isCrashed = true;
+    managerPanelTiltDisabled = true;
+    managerPanel.style.transform = '';
     document.body.classList.add('crash-mode');
     managerPanel.classList.add('crash-mode');
 
@@ -433,6 +442,7 @@ if (managerPanel) {
   const stabilizeMarket = () => {
     if (!managerPanelState.isCrashed) return;
     managerPanelState.isCrashed = false;
+    managerPanelTiltDisabled = false;
     document.body.classList.remove('crash-mode');
     managerPanel.classList.remove('crash-mode');
 
@@ -478,8 +488,8 @@ if (managerPanel) {
              // but the checkbox is disabled so it won't change.
              // We just want to show the toast.
              showToast('❌ System Breaking. Controls Locked.');
-             row.style.transform = 'translateX(5px)';
-             setTimeout(() => row.style.transform = '', 100);
+             row.classList.add('toggle-wiggle');
+             setTimeout(() => row.classList.remove('toggle-wiggle'), 200);
         }
       }
     });
@@ -514,6 +524,9 @@ if (!prefersReducedMotion) {
 
   document.addEventListener('mousemove', (e) => {
     tiltElements.forEach(el => {
+      if (managerPanelTiltDisabled && el.classList.contains('manager-panel')) {
+        return;
+      }
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
