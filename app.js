@@ -264,6 +264,8 @@ if (managerPanel) {
   const managerPanelState = {
     drillMode: false,
     isCrashed: false,
+    calmNoteTimeout: null,
+    toggleStates: {},
   };
   const chartData = {
     '7d': {
@@ -332,7 +334,7 @@ if (managerPanel) {
   const setDrillMode = isOn => {
     managerPanelState.drillMode = isOn;
     managerPanel.classList.toggle('drill-mode', isOn);
-    if (drillStatus) drillStatus.setAttribute('aria-hidden', 'true');
+    if (drillStatus) drillStatus.setAttribute('aria-hidden', isOn ? 'false' : 'true');
     if (drillAnnouncement) {
       drillAnnouncement.textContent = isOn ? 'Drill mode enabled.' : 'Drill mode disabled.';
     }
@@ -400,8 +402,6 @@ if (managerPanel) {
     uhOh: document.getElementById('crash-note'),
     calm: document.getElementById('calm-note')
   };
-  let calmNoteTimeout = null;
-
   const triggerCrash = () => {
     if (managerPanelState.isCrashed) return;
     managerPanelState.isCrashed = true;
@@ -422,7 +422,10 @@ if (managerPanel) {
     }
 
     // Disable toggles
+    managerPanelState.toggleStates = {};
     managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(t => {
+      const key = t.dataset.toggle || 'unknown';
+      managerPanelState.toggleStates[key] = t.checked;
       t.disabled = true;
       t.closest('.toggle-row').style.opacity = '0.5';
       t.closest('.toggle-row').style.cursor = 'not-allowed';
@@ -455,25 +458,28 @@ if (managerPanel) {
       crashNotes.uhOh.setAttribute('aria-hidden', 'true');
     }
     if (crashNotes.calm) {
-      if (calmNoteTimeout) window.clearTimeout(calmNoteTimeout);
+      if (managerPanelState.calmNoteTimeout) window.clearTimeout(managerPanelState.calmNoteTimeout);
       crashNotes.calm.classList.add('is-visible');
       crashNotes.calm.setAttribute('aria-hidden', 'false');
-      calmNoteTimeout = window.setTimeout(() => {
+      managerPanelState.calmNoteTimeout = window.setTimeout(() => {
         crashNotes.calm.classList.remove('is-visible');
         crashNotes.calm.setAttribute('aria-hidden', 'true');
-        calmNoteTimeout = null;
+        managerPanelState.calmNoteTimeout = null;
       }, 3000);
     }
 
     // Re-enable toggles
     managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(t => {
+      const key = t.dataset.toggle || 'unknown';
       t.disabled = false;
+      t.checked = Boolean(managerPanelState.toggleStates[key]);
       t.closest('.toggle-row').style.opacity = '';
       t.closest('.toggle-row').style.cursor = '';
     });
-    const drillToggle = managerPanel.querySelector('[data-toggle="drill"]');
-    if (drillToggle?.checked) {
+    if (managerPanelState.toggleStates.drill) {
       setDrillMode(true);
+    } else {
+      setDrillMode(false);
     }
 
     // Restore Chart (default to 7d or current active)
