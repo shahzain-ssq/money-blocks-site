@@ -445,6 +445,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .institutions-cta {
+  display: flex;
   align-items: center;
   gap: 16px;
 }
@@ -487,7 +488,7 @@ a { color: inherit; text-decoration: none; }
   text-align: left;
 }
 
-.stats-grid label {
+.stats-grid .label {
   display: block;
   font-size: 12px;
   text-transform: uppercase;
