@@ -254,6 +254,7 @@ if (managerPanel) {
   const drillStatus = managerPanel.querySelector('.drill-status');
   const drillAnnouncement = managerPanel.querySelector('#drill-status');
   const riskToggle = managerPanel.querySelector('[data-toggle="risk"]');
+  const RISK_GUARD_VALUE = '25%';
   const metrics = {
     seats: managerPanel.querySelector('[data-metric="seats"]'),
     risk: managerPanel.querySelector('[data-metric="risk"]'),
@@ -298,6 +299,11 @@ if (managerPanel) {
       metrics: { seats: '168', risk: 'Elevated', queue: '15' },
     },
   };
+  const crashChartData = {
+    points: '0,70 40,65 60,60 80,90 120,110 160,105 200,120 240,115',
+    fill: '0,130 0,70 40,65 60,60 80,90 120,110 160,105 200,120 240,115 240,130',
+    metrics: { seats: '142', risk: 'Elevated', queue: '25' },
+  };
 
   const getActiveRange = () => {
     const active = Array.from(rangeButtons).find(btn => btn.classList.contains('active'));
@@ -314,7 +320,7 @@ if (managerPanel) {
       Object.entries(data.metrics).forEach(([key, value]) => {
         if (key === 'risk') {
           const guardOn = Boolean(riskToggle?.checked);
-          const nextRisk = guardOn ? '25%' : value;
+          const nextRisk = guardOn ? RISK_GUARD_VALUE : value;
           if (metrics.risk) metrics.risk.textContent = nextRisk;
           return;
         }
@@ -367,9 +373,7 @@ if (managerPanel) {
       }
       
       if (checkbox.dataset.toggle === 'risk') {
-        const data = managerPanelState.drillMode ? drillChartData[getActiveRange()] : chartData[getActiveRange()];
-        const nextRisk = isOn ? '25%' : (data?.metrics?.risk ?? 'Elevated');
-        if (metrics.risk) metrics.risk.textContent = nextRisk;
+        updateChartForRange(getActiveRange());
       }
     });
   });
@@ -396,6 +400,7 @@ if (managerPanel) {
     uhOh: document.getElementById('crash-note'),
     calm: document.getElementById('calm-note')
   };
+  let calmNoteTimeout = null;
 
   const triggerCrash = () => {
     if (managerPanelState.isCrashed) return;
@@ -425,16 +430,14 @@ if (managerPanel) {
 
     // Animate Chart Crash
     if (sparkline && sparkFill) {
-      // Jittery crash line
-      const crashPoints = '0,70 40,65 60,60 80,90 120,110 160,105 200,120 240,115';
-      const crashFill = '0,130 0,70 40,65 60,60 80,90 120,110 160,105 200,120 240,115 240,130';
-      sparkline.setAttribute('points', crashPoints);
-      sparkFill.setAttribute('points', crashFill);
+      sparkline.setAttribute('points', crashChartData.points);
+      sparkFill.setAttribute('points', crashChartData.fill);
     }
 
     // Update Metrics to Elevated
-    if (metrics.risk) metrics.risk.textContent = 'Elevated';
-    if (metrics.seats) metrics.seats.textContent = '142';
+    Object.entries(crashChartData.metrics).forEach(([key, value]) => {
+      if (metrics[key]) metrics[key].textContent = value;
+    });
 
     showToast('⚠️ MARKET CRASH TRIGGERED');
   };
@@ -452,11 +455,13 @@ if (managerPanel) {
       crashNotes.uhOh.setAttribute('aria-hidden', 'true');
     }
     if (crashNotes.calm) {
+      if (calmNoteTimeout) window.clearTimeout(calmNoteTimeout);
       crashNotes.calm.classList.add('is-visible');
       crashNotes.calm.setAttribute('aria-hidden', 'false');
-      setTimeout(() => {
+      calmNoteTimeout = window.setTimeout(() => {
         crashNotes.calm.classList.remove('is-visible');
         crashNotes.calm.setAttribute('aria-hidden', 'true');
+        calmNoteTimeout = null;
       }, 3000);
     }
 
@@ -466,6 +471,10 @@ if (managerPanel) {
       t.closest('.toggle-row').style.opacity = '';
       t.closest('.toggle-row').style.cursor = '';
     });
+    const drillToggle = managerPanel.querySelector('[data-toggle="drill"]');
+    if (drillToggle?.checked) {
+      setDrillMode(true);
+    }
 
     // Restore Chart (default to 7d or current active)
     const range = getActiveRange();
