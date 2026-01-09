@@ -208,8 +208,12 @@
 
                     <div class="dashboard manager-panel">
                         <div class="panel-header">
-                            <h3>Live Controls</h3>
+                            <div class="panel-title">
+                                <h3>Live Controls</h3>
+                                <span class="status-chip drill-status" aria-hidden="true">⚠️ DRILL MODE</span>
+                            </div>
                             <div class="status-indicator live" aria-hidden="true"></div>
+                            <span class="sr-only" id="drill-status" role="status" aria-live="polite"></span>
                         </div>
 
                         <div class="stats-grid">
@@ -236,6 +240,7 @@
                                     <button data-range="90d" type="button" aria-pressed="false">1Q</button>
                                 </div>
                             </div>
+                            <div class="chart-banner">Simulated volatility overlay</div>
                             <div id="crash-note" class="handwritten chart-note crash" aria-hidden="true">uh oh.</div>
                             <div id="calm-note" class="handwritten chart-note calm" aria-hidden="true">ok... calm now</div>
                             <div class="mini-chart">
@@ -261,7 +266,7 @@
                             <label class="toggle-row">
                                 <span>Crisis Drill Mode</span>
                                 <span class="switch">
-                                    <input type="checkbox">
+                                    <input type="checkbox" data-toggle="drill">
                                     <span class="slider round"></span>
                                 </span>
                             </label>
@@ -279,8 +284,6 @@
                                     <span class="slider round"></span>
                                 </span>
                             </label>
-
-                            <div class="panel-toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
                             <div class="handwritten zero-risk">
                                 Zero Risk
@@ -400,6 +403,7 @@
       </div>
     </section>
 
+  <div class="toast-stack" aria-live="polite" aria-atomic="false"></div>
   <div class="crash-overlay"></div>
   <footer class="footer">
     <div class="container footer-grid">

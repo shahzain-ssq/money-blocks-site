@@ -246,14 +246,22 @@ if (counterEls.length && 'IntersectionObserver' in window) {
 // Manager panel interactions
 const managerPanel = document.querySelector('.manager-panel');
 if (managerPanel) {
-  const toast = managerPanel.querySelector('.panel-toast');
+  const toastStack = document.querySelector('.toast-stack');
   const rangeButtons = managerPanel.querySelectorAll('[data-range]');
   const sparkline = managerPanel.querySelector('.sparkline-line');
   const sparkFill = managerPanel.querySelector('.sparkline-fill');
+  const drillStatus = managerPanel.querySelector('.drill-status');
+  const drillAnnouncement = managerPanel.querySelector('#drill-status');
+  const riskToggle = managerPanel.querySelector('[data-toggle="risk"]');
   const metrics = {
     seats: managerPanel.querySelector('[data-metric="seats"]'),
     risk: managerPanel.querySelector('[data-metric="risk"]'),
     queue: managerPanel.querySelector('[data-metric="queue"]'),
+  };
+  // Panel state for toggles and crash/drill effects.
+  const managerPanelState = {
+    drillMode: false,
+    isCrashed: false,
   };
   const chartData = {
     '7d': {
@@ -272,17 +280,70 @@ if (managerPanel) {
       metrics: { seats: '168', risk: '22%', queue: '11' },
     },
   };
-  let toastTimeout;
+  const drillChartData = {
+    '7d': {
+      points: '0,74 35,60 70,76 110,52 150,68 190,38 230,52',
+      fill: '0,90 0,74 35,60 70,76 110,52 150,68 190,38 230,52 240,90',
+      metrics: { seats: '142', risk: 'Elevated', queue: '21' },
+    },
+    '30d': {
+      points: '0,80 40,54 90,70 130,46 170,58 210,32 240,44',
+      fill: '0,90 0,80 40,54 90,70 130,46 170,58 210,32 240,44 240,90',
+      metrics: { seats: '151', risk: 'Elevated', queue: '26' },
+    },
+    '90d': {
+      points: '0,84 40,72 90,66 130,50 170,62 210,38 240,46',
+      fill: '0,90 0,84 40,72 90,66 130,50 170,62 210,38 240,46 240,90',
+      metrics: { seats: '168', risk: 'Elevated', queue: '15' },
+    },
+  };
+
+  const getActiveRange = () => {
+    const active = Array.from(rangeButtons).find(btn => btn.classList.contains('active'));
+    return active?.dataset.range || '7d';
+  };
+
+  const updateChartForRange = range => {
+    const data = managerPanelState.drillMode ? drillChartData[range] : chartData[range];
+    if (data && sparkline && sparkFill) {
+      sparkline.setAttribute('points', data.points);
+      sparkFill.setAttribute('points', data.fill);
+    }
+    if (data) {
+      Object.entries(data.metrics).forEach(([key, value]) => {
+        if (key === 'risk' && riskToggle?.checked) {
+          if (metrics.risk) metrics.risk.textContent = '25%';
+          return;
+        }
+        if (metrics[key]) metrics[key].textContent = value;
+      });
+    }
+  };
+
+  const setDrillMode = isOn => {
+    managerPanelState.drillMode = isOn;
+    managerPanel.classList.toggle('drill-mode', isOn);
+    if (drillStatus) drillStatus.setAttribute('aria-hidden', String(!isOn));
+    if (drillAnnouncement) {
+      drillAnnouncement.textContent = isOn ? 'Drill mode enabled.' : 'Drill mode disabled.';
+    }
+    updateChartForRange(getActiveRange());
+  };
 
   const showToast = message => {
-    if (!toast) return;
+    if (!toastStack) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast-item';
     toast.textContent = message;
-    toast.classList.add('show');
-    window.clearTimeout(toastTimeout);
-    toastTimeout = window.setTimeout(() => {
+    toast.setAttribute('role', 'status');
+    toastStack.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    const dismiss = () => {
       toast.classList.remove('show');
-      toast.textContent = '';
-    }, 2200);
+      window.setTimeout(() => toast.remove(), 200);
+    };
+    toast.addEventListener('click', dismiss, { once: true });
+    window.setTimeout(dismiss, 3200);
   };
 
   managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(checkbox => {
@@ -291,6 +352,10 @@ if (managerPanel) {
       const label = checkbox.closest('.toggle-row').querySelector('span').textContent.trim();
       showToast(`${label} ${isOn ? 'enabled' : 'disabled'}.`);
       
+      if (checkbox.dataset.toggle === 'drill') {
+        setDrillMode(isOn);
+      }
+
       // Visual feedback for Freeze Trades
       if (checkbox.dataset.toggle === 'freeze') {
         managerPanel.classList.toggle('frozen', isOn);
@@ -310,14 +375,7 @@ if (managerPanel) {
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-pressed', String(isActive));
       });
-      const data = chartData[range];
-      if (data && sparkline && sparkFill) {
-        sparkline.setAttribute('points', data.points);
-        sparkFill.setAttribute('points', data.fill);
-        Object.entries(data.metrics).forEach(([key, value]) => {
-          if (metrics[key]) metrics[key].textContent = value;
-        });
-      }
+      updateChartForRange(range);
       showToast(`Volume updated to ${button.textContent}.`);
     });
   });
@@ -325,7 +383,6 @@ if (managerPanel) {
   // Crash Simulation Logic
   const crashBtn = document.getElementById('trigger-crash');
   const stabilizeBtn = document.getElementById('stabilize-market');
-  let isCrashed = false;
 
   // Cache crash notes
   const crashNotes = {
@@ -334,9 +391,10 @@ if (managerPanel) {
   };
 
   const triggerCrash = () => {
-    if (isCrashed) return;
-    isCrashed = true;
+    if (managerPanelState.isCrashed) return;
+    managerPanelState.isCrashed = true;
     document.body.classList.add('crash-mode');
+    managerPanel.classList.add('crash-mode');
 
     // Reveal "uh oh" note
     if (crashNotes.uhOh) {
@@ -373,9 +431,10 @@ if (managerPanel) {
   };
 
   const stabilizeMarket = () => {
-    if (!isCrashed) return;
-    isCrashed = false;
+    if (!managerPanelState.isCrashed) return;
+    managerPanelState.isCrashed = false;
     document.body.classList.remove('crash-mode');
+    managerPanel.classList.remove('crash-mode');
 
     // Hide "uh oh", show "calm now"
     if (crashNotes.uhOh) {
@@ -399,21 +458,8 @@ if (managerPanel) {
     });
 
     // Restore Chart (default to 7d or current active)
-    const activeRangeBtn = Array.from(rangeButtons).find(btn => btn.classList.contains('active'));
-    const range = activeRangeBtn ? activeRangeBtn.dataset.range : '7d';
-    const data = chartData[range];
-
-    if (data && sparkline && sparkFill) {
-      sparkline.setAttribute('points', data.points);
-      sparkFill.setAttribute('points', data.fill);
-    }
-
-    // Restore Metrics
-    if (data) {
-      Object.entries(data.metrics).forEach(([key, value]) => {
-        if (metrics[key]) metrics[key].textContent = value;
-      });
-    }
+    const range = getActiveRange();
+    updateChartForRange(range);
 
     showToast('✅ Market Stabilized');
   };
@@ -424,7 +470,7 @@ if (managerPanel) {
   // Handle clicks on disabled toggles
   managerPanel.querySelectorAll('.toggle-row').forEach(row => {
     row.addEventListener('click', (e) => {
-      if (isCrashed) {
+      if (managerPanelState.isCrashed) {
         // Find the checkbox within this row
         const checkbox = row.querySelector('input[type="checkbox"]');
         if (checkbox && checkbox.disabled) {
