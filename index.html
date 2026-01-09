@@ -179,118 +179,116 @@
       </div>
     </section>
 
-        <section class="hero-split institutions" id="institutions" data-reveal>
-            <div class="content">
-                <span class="tag">For Institutions</span>
-                <h1 class="loud">Manager Controls Made Simple</h1>
-                <p>Purpose-built for program leads who need clarity, control, and compliance.</p>
+        <section class="section hero-split institutions" id="institutions" data-reveal>
+            <div class="container hero-split-grid">
+                <div class="content">
+                    <span class="tag">For Institutions</span>
+                    <h2 class="loud">Manager Controls Made Simple</h2>
+                    <p>Purpose-built for program leads who need clarity, control, and compliance.</p>
 
-                <ul class="feature-list">
-                    <li>Publish timed crisis scenarios.</li>
-                    <li>Update prices or pauses instantly.</li>
-                    <li>Set stock availability and trading windows.</li>
-                    <li>Define per-user and shorting limits.</li>
-                    <li>Review participant portfolios by institution.</li>
-                </ul>
+                    <ul class="feature-list">
+                        <li>Publish timed crisis scenarios.</li>
+                        <li>Update prices or pauses instantly.</li>
+                        <li>Set stock availability and trading windows.</li>
+                        <li>Define per-user and shorting limits.</li>
+                        <li>Review participant portfolios by institution.</li>
+                    </ul>
 
-                <div class="cta-group">
-                    <a href="#" class="btn btn-secondary interactive">Request a Demo</a>
-                    <span class="handwritten doodle-arrow" style="top: 10px; left: 180px;">See how it works</span>
-                </div>
-            </div>
-
-            <div class="visual">
-                <!-- Visual Guidance Doodle -->
-                <div class="handwritten visual-guidance" style="position: absolute; top: -40px; right: 50px; color: var(--neon-lime); transform: rotate(10deg);">
-                    Try breaking the market <span style="font-size: 2rem;">⤵</span>
+                    <div class="cta-group institutions-cta">
+                        <a href="mailto:hello@money-blocks.org" class="btn ghost">Request a Demo</a>
+                        <span class="handwritten doodle-note">See how it works</span>
+                    </div>
                 </div>
 
-                <div class="dashboard manager-panel">
-                    <div class="panel-header">
-                        <h2>Live Controls</h2>
-                        <div class="status-indicator live"></div>
+                <div class="visual">
+                    <!-- Visual Guidance Doodle -->
+                    <div class="handwritten visual-guidance">
+                        Try breaking the market <span aria-hidden="true">⤵</span>
                     </div>
 
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <label>Active Seats</label>
-                            <div class="value" data-metric="seats">142</div>
+                    <div class="dashboard manager-panel">
+                        <div class="panel-header">
+                            <h3>Live Controls</h3>
+                            <div class="status-indicator live" aria-hidden="true"></div>
                         </div>
-                        <div class="stat-card">
-                            <label>Risk Limit</label>
-                            <div class="value" data-metric="risk">Elevated</div>
-                        </div>
-                        <div class="stat-card">
-                            <label>Trade Queue</label>
-                            <div class="value" data-metric="queue">18</div>
-                        </div>
-                    </div>
 
-                    <div class="chart-area">
-                        <div class="chart-header">
-                            <span>Volume</span>
-                            <div class="chart-controls">
-                                <button class="active" data-range="7d">1W</button>
-                                <button data-range="30d">1M</button>
-                                <button data-range="90d">1Q</button>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="label">Active Seats</span>
+                                <div class="value" data-metric="seats">142</div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="label">Risk Limit</span>
+                                <div class="value" data-metric="risk">Elevated</div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="label">Trade Queue</span>
+                                <div class="value" data-metric="queue">18</div>
                             </div>
                         </div>
-                        <!-- Hidden Crash Note -->
-                        <div id="crash-note" class="handwritten" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-10deg); color: #ff4444; font-size: 2.5rem; opacity: 0; transition: opacity 0.3s;">
-                            uh oh.
-                        </div>
-                        <!-- Hidden Calm Note -->
-                         <div id="calm-note" class="handwritten" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(5deg); color: var(--neon-lime); font-size: 2.5rem; opacity: 0; transition: opacity 0.3s;">
-                            ok... calm now
-                        </div>
-                        <svg viewBox="0 0 300 100" class="mini-chart">
-                            <polyline class="sparkline-line" points="0,70 40,62 80,66 120,48 160,44 200,35 240,42" stroke="var(--neon-lime)" fill="none" stroke-width="2"/>
-                            <polygon class="sparkline-fill" points="0,90 0,70 40,62 80,66 120,48 160,44 200,35 240,42 240,90" fill="url(#gradient)" opacity="0.2"/>
-                            <defs>
-                                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:var(--neon-lime);stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:var(--neon-lime);stop-opacity:0" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
 
-                    <div class="control-actions">
-                        <button id="trigger-crash" class="btn btn-danger squash-stretch">Trigger Crash</button>
-                        <button id="stabilize-market" class="btn btn-primary squash-stretch">Stabilize</button>
-                    </div>
+                        <div class="chart-area">
+                            <div class="chart-header">
+                                <span>Volume</span>
+                                <div class="chart-controls">
+                                    <button class="active" data-range="7d" type="button" aria-pressed="true">1W</button>
+                                    <button data-range="30d" type="button" aria-pressed="false">1M</button>
+                                    <button data-range="90d" type="button" aria-pressed="false">1Q</button>
+                                </div>
+                            </div>
+                            <div id="crash-note" class="handwritten chart-note crash" aria-hidden="true">uh oh.</div>
+                            <div id="calm-note" class="handwritten chart-note calm" aria-hidden="true">ok... calm now</div>
+                            <div class="mini-chart">
+                                <svg viewBox="0 0 300 100" aria-hidden="true">
+                                    <polyline class="sparkline-line" points="0,70 40,62 80,66 120,48 160,44 200,35 240,42" fill="none" stroke-width="2"/>
+                                    <polygon class="sparkline-fill" points="0,90 0,70 40,62 80,66 120,48 160,44 200,35 240,42 240,90" fill="url(#mb-gradient-institutions)" opacity="0.2"/>
+                                    <defs>
+                                        <linearGradient id="mb-gradient-institutions" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="var(--neon-lime)" stop-opacity="1" />
+                                            <stop offset="100%" stop-color="var(--neon-lime)" stop-opacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
 
-                    <div class="toggles">
-                        <div class="toggle-row">
-                            <span>Crisis Drill Mode</span>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider round"></span>
+                        <div class="control-actions">
+                            <button id="trigger-crash" class="btn btn-danger squash-stretch" type="button">Trigger Crash</button>
+                            <button id="stabilize-market" class="btn btn-primary squash-stretch" type="button">Stabilize</button>
+                        </div>
+
+                        <div class="toggles">
+                            <label class="toggle-row">
+                                <span>Crisis Drill Mode</span>
+                                <span class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </span>
                             </label>
-                        </div>
-                        <div class="toggle-row">
-                            <span>Freeze Trades</span>
-                            <label class="switch">
-                                <input type="checkbox" data-toggle="freeze">
-                                <span class="slider round"></span>
+                            <label class="toggle-row">
+                                <span>Freeze Trades</span>
+                                <span class="switch">
+                                    <input type="checkbox" data-toggle="freeze">
+                                    <span class="slider round"></span>
+                                </span>
                             </label>
-                        </div>
-                        <div class="toggle-row">
-                            <span>Risk Limit Guard</span>
-                            <label class="switch">
-                                <input type="checkbox" data-toggle="risk">
-                                <span class="slider round"></span>
+                            <label class="toggle-row">
+                                <span>Risk Limit Guard</span>
+                                <span class="switch">
+                                    <input type="checkbox" data-toggle="risk">
+                                    <span class="slider round"></span>
+                                </span>
                             </label>
-                        </div>
 
-                        <div class="panel-toast"></div>
+                            <div class="panel-toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-                        <div class="handwritten" style="position: absolute; bottom: -30px; left: -20px; color: #666; font-size: 0.9rem; z-index: 10; white-space: nowrap;">
-                            Zero Risk
-                            <svg width="30" height="30" viewBox="0 0 50 50" style="position: absolute; top: -20px; right: -30px; transform: rotate(15deg);">
-                                <path d="M10,40 Q25,10 40,20" stroke="currentColor" fill="none" stroke-width="2"/>
-                                <path d="M40,20 L35,18 M40,20 L38,25" stroke="currentColor" fill="none" stroke-width="2"/>
-                            </svg>
+                            <div class="handwritten zero-risk">
+                                Zero Risk
+                                <svg width="30" height="30" viewBox="0 0 50 50" aria-hidden="true">
+                                    <path d="M10,40 Q25,10 40,20" stroke="currentColor" fill="none" stroke-width="2"/>
+                                    <path d="M40,20 L35,18 M40,20 L38,25" stroke="currentColor" fill="none" stroke-width="2"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>

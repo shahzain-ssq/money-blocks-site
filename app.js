@@ -279,7 +279,10 @@ if (managerPanel) {
     toast.textContent = message;
     toast.classList.add('show');
     window.clearTimeout(toastTimeout);
-    toastTimeout = window.setTimeout(() => toast.classList.remove('show'), 2200);
+    toastTimeout = window.setTimeout(() => {
+      toast.classList.remove('show');
+      toast.textContent = '';
+    }, 2200);
   };
 
   managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(checkbox => {
@@ -302,7 +305,11 @@ if (managerPanel) {
   rangeButtons.forEach(button => {
     button.addEventListener('click', () => {
       const range = button.dataset.range;
-      rangeButtons.forEach(btn => btn.classList.toggle('active', btn === button));
+      rangeButtons.forEach(btn => {
+        const isActive = btn === button;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', String(isActive));
+      });
       const data = chartData[range];
       if (data && sparkline && sparkFill) {
         sparkline.setAttribute('points', data.points);
@@ -333,12 +340,14 @@ if (managerPanel) {
 
     // Reveal "uh oh" note
     if (crashNotes.uhOh) {
-      crashNotes.uhOh.style.opacity = '1';
-      crashNotes.uhOh.style.transform = 'translate(-50%, -50%) rotate(-5deg) scale(1.2)';
-      crashNotes.uhOh.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+      crashNotes.uhOh.classList.add('is-visible');
+      crashNotes.uhOh.setAttribute('aria-hidden', 'false');
     }
 
-    if (crashNotes.calm) crashNotes.calm.style.opacity = '0';
+    if (crashNotes.calm) {
+      crashNotes.calm.classList.remove('is-visible');
+      crashNotes.calm.setAttribute('aria-hidden', 'true');
+    }
 
     // Disable toggles
     managerPanel.querySelectorAll('.toggle-row input[type="checkbox"]').forEach(t => {
@@ -369,12 +378,16 @@ if (managerPanel) {
     document.body.classList.remove('crash-mode');
 
     // Hide "uh oh", show "calm now"
-    if (crashNotes.uhOh) crashNotes.uhOh.style.opacity = '0';
+    if (crashNotes.uhOh) {
+      crashNotes.uhOh.classList.remove('is-visible');
+      crashNotes.uhOh.setAttribute('aria-hidden', 'true');
+    }
     if (crashNotes.calm) {
-      crashNotes.calm.style.opacity = '1';
-      crashNotes.calm.style.transition = 'opacity 0.5s ease 0.2s';
+      crashNotes.calm.classList.add('is-visible');
+      crashNotes.calm.setAttribute('aria-hidden', 'false');
       setTimeout(() => {
-        crashNotes.calm.style.opacity = '0';
+        crashNotes.calm.classList.remove('is-visible');
+        crashNotes.calm.setAttribute('aria-hidden', 'true');
       }, 3000);
     }
 
