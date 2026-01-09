@@ -551,6 +551,13 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-1px);
 }
 
+.chart-controls button.active:hover,
+.chart-controls button.active:focus-visible {
+  color: #000;
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
 .mini-chart {
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -565,7 +572,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .sparkline-line {
-  stroke: var(--accent);
+  stroke: var(--neon-lime);
 }
 
 .sparkline-fill {
@@ -583,12 +590,16 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
+.chart-note.is-visible {
+  opacity: 1;
+}
+
 .chart-note.crash {
   color: #ff4444;
 }
 
 .chart-note.calm {
-  color: var(--accent);
+  color: var(--neon-lime);
   transform: translate(-50%, -50%) rotate(5deg);
 }
 
@@ -639,9 +650,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 .switch input {
+  position: absolute;
+  inset: 0;
   opacity: 0;
-  width: 0;
-  height: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
 }
 
 .slider {
@@ -675,6 +690,12 @@ a { color: inherit; text-decoration: none; }
   transform: translate(20px, -50%);
   background-color: var(--accent);
   box-shadow: 0 0 10px rgba(204, 255, 0, 0.4);
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid var(--accent-tertiary);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.35);
 }
 
 .slider.round {
@@ -719,7 +740,6 @@ a { color: inherit; text-decoration: none; }
 .panel-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .metric { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 10px; border-radius: 12px; }
 .metric h4 { margin: 4px 0 0; font-size: 18px; }
-.mini-chart { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent); }
 .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; color: var(--muted); }
 .chart-range { display: inline-flex; gap: 6px; }
 .range-btn {

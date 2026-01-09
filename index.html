@@ -231,21 +231,21 @@
                             <div class="chart-header">
                                 <span>Volume</span>
                                 <div class="chart-controls">
-                                    <button class="active" data-range="7d" type="button">1W</button>
-                                    <button data-range="30d" type="button">1M</button>
-                                    <button data-range="90d" type="button">1Q</button>
+                                    <button class="active" data-range="7d" type="button" aria-pressed="true">1W</button>
+                                    <button data-range="30d" type="button" aria-pressed="false">1M</button>
+                                    <button data-range="90d" type="button" aria-pressed="false">1Q</button>
                                 </div>
                             </div>
-                            <div id="crash-note" class="handwritten chart-note crash">uh oh.</div>
-                            <div id="calm-note" class="handwritten chart-note calm">ok... calm now</div>
+                            <div id="crash-note" class="handwritten chart-note crash" aria-hidden="true">uh oh.</div>
+                            <div id="calm-note" class="handwritten chart-note calm" aria-hidden="true">ok... calm now</div>
                             <div class="mini-chart">
                                 <svg viewBox="0 0 300 100" aria-hidden="true">
                                     <polyline class="sparkline-line" points="0,70 40,62 80,66 120,48 160,44 200,35 240,42" fill="none" stroke-width="2"/>
                                     <polygon class="sparkline-fill" points="0,90 0,70 40,62 80,66 120,48 160,44 200,35 240,42 240,90" fill="url(#mb-gradient-institutions)" opacity="0.2"/>
                                     <defs>
                                         <linearGradient id="mb-gradient-institutions" x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stop-color="var(--accent)" stop-opacity="1" />
-                                            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+                                            <stop offset="0%" stop-color="var(--neon-lime)" stop-opacity="1" />
+                                            <stop offset="100%" stop-color="var(--neon-lime)" stop-opacity="0" />
                                         </linearGradient>
                                     </defs>
                                 </svg>
@@ -258,29 +258,29 @@
                         </div>
 
                         <div class="toggles">
-                            <div class="toggle-row">
+                            <label class="toggle-row">
                                 <span>Crisis Drill Mode</span>
-                                <label class="switch">
+                                <span class="switch">
                                     <input type="checkbox">
                                     <span class="slider round"></span>
-                                </label>
-                            </div>
-                            <div class="toggle-row">
+                                </span>
+                            </label>
+                            <label class="toggle-row">
                                 <span>Freeze Trades</span>
-                                <label class="switch">
+                                <span class="switch">
                                     <input type="checkbox" data-toggle="freeze">
                                     <span class="slider round"></span>
-                                </label>
-                            </div>
-                            <div class="toggle-row">
+                                </span>
+                            </label>
+                            <label class="toggle-row">
                                 <span>Risk Limit Guard</span>
-                                <label class="switch">
+                                <span class="switch">
                                     <input type="checkbox" data-toggle="risk">
                                     <span class="slider round"></span>
-                                </label>
-                            </div>
+                                </span>
+                            </label>
 
-                            <div class="panel-toast"></div>
+                            <div class="panel-toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
                             <div class="handwritten zero-risk">
                                 Zero Risk
